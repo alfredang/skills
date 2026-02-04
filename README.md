@@ -11,6 +11,7 @@ A collection of Claude Code skills to supercharge your development workflow. Ski
 |-------|-------------|---------|
 | [readme](./readme) | Generate professional GitHub README.md files with badges, architecture diagrams, and setup instructions | `npx skills add https://github.com/alfredang/skills --skill readme` |
 | [linkedin-project-post](./linkedin-project-post) | Create exciting LinkedIn posts to showcase your vibe coding projects with emojis and hashtags | `npx skills add https://github.com/alfredang/skills --skill linkedin-project-post` |
+| [notebooklm](./notebooklm) | Complete API for Google NotebookLM - create podcasts, notebooks, summaries from any content | `npx skills add https://github.com/alfredang/skills --skill notebooklm` |
 
 ## Quick Install
 
@@ -22,6 +23,11 @@ npx skills add https://github.com/alfredang/skills --skill readme
 ### LinkedIn Post Generator
 ```bash
 npx skills add https://github.com/alfredang/skills --skill linkedin-project-post
+```
+
+### NotebookLM (Google Podcasts)
+```bash
+npx skills add https://github.com/alfredang/skills --skill notebooklm
 ```
 
 ## Fresh Install (All Platforms)
@@ -44,11 +50,13 @@ Once installed, trigger skills in Claude Code:
 ```
 /readme                    # Generate a README
 /linkedin-project-post     # Create a LinkedIn post
+/notebooklm                # Create podcasts and notebooks
 ```
 
 Or use natural language:
 - "create a readme for my project"
 - "write a linkedin post about my app"
+- "create a podcast about this topic"
 
 ## Supported Platforms (40+ Agents)
 
