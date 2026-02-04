@@ -11,7 +11,7 @@ A collection of Claude Code skills to supercharge your development workflow. Ski
 |-------|-------------|---------|
 | [readme](./readme) | Generate professional GitHub README.md files with badges, architecture diagrams, and setup instructions | `npx skills add https://github.com/alfredang/skills --skill readme` |
 | [linkedin-project-post](./linkedin-project-post) | Create exciting LinkedIn posts to showcase your vibe coding projects with emojis and hashtags | `npx skills add https://github.com/alfredang/skills --skill linkedin-project-post` |
-| [notebooklm](./notebooklm) | Complete API for Google NotebookLM - create podcasts, notebooks, summaries from any content | `npx skills add https://github.com/alfredang/skills --skill notebooklm` |
+| [notebooklm](./notebooklm) | Deep research & slide presentation generator - research topics via NotebookLM MCP, generate slides with white background & Arial font | `npx skills add https://github.com/alfredang/skills --skill notebooklm` |
 
 ## Quick Install
 

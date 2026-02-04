@@ -1,11 +1,43 @@
 ---
 name: notebooklm
-description: Complete API for Google NotebookLM - full programmatic access including features not in the web UI. Create notebooks, add sources, generate all artifact types, download in multiple formats. Activates on explicit /notebooklm or intent like "create a podcast about X"
+description: Deep research and slide presentation generator using NotebookLM MCP. Performs deep research on topics, then generates professional slide presentations with white background and Arial font based on research sources.
 ---
-<!-- notebooklm-py v0.3.1 -->
 
+# NotebookLM Deep Research & Slide Generator
 
-# NotebookLM Automation
+## Primary Workflow
+
+When user requests a presentation or research on a topic:
+
+### Step 1: Deep Research via NotebookLM MCP
+1. Invoke the NotebookLM MCP to perform deep research on the topic
+2. Gather comprehensive sources and insights
+3. Extract key findings, data points, and citations
+
+### Step 2: Generate Slide Presentation
+Based on the user's topic outline, create slides with:
+
+**Design Specifications:**
+- **Background:** White (#FFFFFF)
+- **Font:** Arial (all text)
+- **Content:** Based exclusively on deep research sources
+- **Citations:** Include source references on each slide
+
+**Slide Structure:**
+1. Title Slide - Topic name, subtitle, date
+2. Agenda/Outline - Based on user's provided outline
+3. Content Slides - One per outline section
+4. Key Findings - Summary of research insights
+5. Sources/References - All NotebookLM sources used
+
+### Step 3: Output Format
+Generate slides as:
+- Markdown format (for review)
+- Or HTML/reveal.js format (for presentation)
+
+---
+
+# NotebookLM API Reference
 
 Complete programmatic access to Google NotebookLM—including capabilities not exposed in the web UI. Create notebooks, add sources (URLs, YouTube, PDFs, audio, video, images), chat with content, generate all artifact types, and download results in multiple formats.
 

@@ -3,7 +3,7 @@
 [![Claude Code](https://img.shields.io/badge/Claude_Code-Skill-blueviolet)](https://docs.anthropic.com/en/docs/claude-code)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Complete API for Google NotebookLM - full programmatic access including features not in the web UI. Create notebooks, add sources, generate all artifact types, download in multiple formats.
+Deep research and slide presentation generator using NotebookLM MCP. Performs deep research on topics, then generates professional slide presentations based on research sources.
 
 ## Installation
 
@@ -28,27 +28,50 @@ Once installed, trigger the skill in Claude Code using:
 ```
 
 Or use natural language:
-- "create a podcast about X"
-- "generate audio overview from my document"
-- "create a notebook from these URLs"
+- "research and create a presentation about AI trends"
+- "deep dive into quantum computing and make slides"
+- "create a slide deck on climate change"
+
+## Primary Workflow
+
+### 1. Deep Research
+- Invokes NotebookLM MCP for comprehensive research
+- Gathers sources, insights, and citations
+- Extracts key findings and data points
+
+### 2. Slide Generation
+Based on your topic outline, generates slides with:
+
+| Specification | Value |
+|---------------|-------|
+| **Background** | White (#FFFFFF) |
+| **Font** | Arial |
+| **Content** | Based on research sources |
+| **Citations** | Included on each slide |
+
+### 3. Slide Structure
+1. Title Slide
+2. Agenda/Outline
+3. Content Slides (per outline section)
+4. Key Findings
+5. Sources/References
 
 ## Features
 
 | Feature | Description |
 |---------|-------------|
-| **Create Notebooks** | Programmatically create new notebooks |
-| **Add Sources** | URLs, YouTube, PDFs, audio, video, images |
-| **Generate Artifacts** | Podcasts, summaries, FAQs, study guides, timelines |
-| **Download Results** | Multiple formats (audio, text, etc.) |
-| **Chat with Content** | Interactive Q&A with your sources |
+| **Deep Research** | Comprehensive topic research via NotebookLM |
+| **Slide Generation** | Professional presentations from research |
+| **Source Citations** | All content backed by sources |
+| **Custom Outlines** | User-defined presentation structure |
+| **Multiple Formats** | Markdown or HTML/reveal.js output |
 
-## Capabilities
+## Additional Capabilities
 
-- Full programmatic access to NotebookLM
-- Features not available in web UI
-- Batch processing support
-- CI/CD integration ready
-- Multiple account support
+- Create podcasts and audio overviews
+- Generate summaries, FAQs, study guides
+- Add sources: URLs, YouTube, PDFs, audio, video
+- Interactive Q&A with content
 
 ## Skill Structure
 
@@ -66,7 +89,7 @@ notebooklm/
 
 ## Keywords
 
-`notebooklm` `podcast` `google notebooklm` `audio overview` `notebook` `ai podcast` `document summary` `study guide`
+`notebooklm` `deep research` `slides` `presentation` `google notebooklm` `research` `slide deck` `powerpoint`
 
 ## License
 
