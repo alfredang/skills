@@ -8,7 +8,7 @@ Generate professional GitHub README.md files following open standards with tech 
 ## Installation
 
 ```bash
-npx add alfredang/readme
+npx skills add https://github.com/alfredang/skills --skill readme
 ```
 
 ## Usage
