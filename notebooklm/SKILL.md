@@ -14,21 +14,41 @@ When user requests a presentation or research on a topic:
 2. Gather comprehensive sources and insights
 3. Extract key findings, data points, and citations
 
-### Step 2: Generate Slide Presentation
-Based on the user's topic outline, create slides with:
+### Step 2: Generate Highly Infographic Slide Presentation
+Based on the user's topic outline, create visually-rich infographic slides:
 
 **Design Specifications:**
 - **Background:** White (#FFFFFF)
 - **Font:** Arial (all text)
+- **Style:** HIGHLY INFOGRAPHIC - visual-first design
 - **Content:** Based exclusively on deep research sources
 - **Citations:** Include source references on each slide
 
+**Infographic Elements (REQUIRED on every content slide):**
+- 📊 **Charts & Graphs** - Bar charts, pie charts, line graphs for data
+- 📈 **Statistics Callouts** - Large numbers with context (e.g., "87% of users...")
+- 🎯 **Icons** - Use relevant icons for each concept
+- 🔲 **Flowcharts** - Process diagrams, decision trees
+- 📋 **Comparison Tables** - Side-by-side comparisons
+- 🗺️ **Diagrams** - Concept maps, timelines, hierarchies
+- 💡 **Highlight Boxes** - Key takeaways in colored boxes
+- ➡️ **Visual Hierarchy** - Clear information flow
+
+**Infographic Design Rules:**
+1. **Minimal text** - Max 6 bullet points per slide, each under 10 words
+2. **Data visualization** - Convert all statistics to visual charts
+3. **Icon-driven** - Every section header has an icon
+4. **Color coding** - Use consistent colors for categories
+5. **White space** - 40% of slide should be empty for clarity
+6. **One idea per slide** - Don't overcrowd
+
 **Slide Structure:**
-1. Title Slide - Topic name, subtitle, date
-2. Agenda/Outline - Based on user's provided outline
-3. Content Slides - One per outline section
-4. Key Findings - Summary of research insights
-5. Sources/References - All NotebookLM sources used
+1. Title Slide - Topic name, subtitle, date, hero image/icon
+2. Agenda/Outline - Visual roadmap with icons
+3. Content Slides - Infographic-style, one concept per slide
+4. Key Statistics - Large numbers with visual context
+5. Key Findings - Summary infographic
+6. Sources/References - Clean list with icons
 
 ### Step 3: Output Format
 Generate slides as:

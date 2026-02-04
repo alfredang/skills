@@ -39,22 +39,31 @@ Or use natural language:
 - Gathers sources, insights, and citations
 - Extracts key findings and data points
 
-### 2. Slide Generation
-Based on your topic outline, generates slides with:
+### 2. Highly Infographic Slide Generation
+Based on your topic outline, generates **visual-first infographic slides**:
 
 | Specification | Value |
 |---------------|-------|
 | **Background** | White (#FFFFFF) |
 | **Font** | Arial |
+| **Style** | Highly Infographic |
 | **Content** | Based on research sources |
 | **Citations** | Included on each slide |
 
+**Infographic Elements:**
+- 📊 Charts & graphs for all data
+- 📈 Large statistics callouts
+- 🎯 Icons for every concept
+- 🔲 Flowcharts & diagrams
+- 💡 Highlight boxes for key points
+
 ### 3. Slide Structure
-1. Title Slide
-2. Agenda/Outline
-3. Content Slides (per outline section)
-4. Key Findings
-5. Sources/References
+1. Title Slide (with hero icon)
+2. Visual Agenda/Roadmap
+3. Infographic Content Slides
+4. Key Statistics (visual)
+5. Key Findings Summary
+6. Sources/References
 
 ## Features
 
