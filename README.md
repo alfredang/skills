@@ -50,15 +50,18 @@ Or use natural language:
 - "create a readme for my project"
 - "write a linkedin post about my app"
 
-## Supported Platforms
+## Supported Platforms (40+ Agents)
 
-Skills are automatically installed to all supported AI coding assistants:
-- Claude Code
-- Cursor
-- Windsurf
-- Continue
-- Cline
-- And more...
+Skills are automatically installed to all supported AI coding assistants. The CLI auto-detects which agents you have installed.
+
+| Category | Platforms |
+|----------|-----------|
+| **Popular** | Claude Code, Cursor, Windsurf, GitHub Copilot, Continue, Cline |
+| **AI Assistants** | OpenHands, Codex, Gemini CLI, Kimi Code CLI, Qwen Code, Mistral Vibe |
+| **IDE Extensions** | Augment, CodeBuddy, Kilo Code, Roo Code, Zencoder, Junie |
+| **CLI Tools** | OpenCode, Goose, Command Code, Kiro CLI, iFlow CLI, Pi |
+| **Enterprise** | Factory AI/Droid, Antigravity, Replit, Amp |
+| **Others** | Trae, Kode, MCPJam, Mux, Qoder, Crush, OpenClaw, Neovate, Pochi, AdaL |
 
 ## Troubleshooting
 
