@@ -8,7 +8,7 @@ Generate exciting LinkedIn posts to showcase your vibe coding projects with emoj
 ## Installation
 
 ```bash
-npx skills add https://github.com/alfredang/skills --skill linkedin-post
+npx skills add https://github.com/alfredang/skills --skill linkedin-project-post
 ```
 
 ## Usage
@@ -16,7 +16,7 @@ npx skills add https://github.com/alfredang/skills --skill linkedin-post
 Once installed, trigger the skill in Claude Code using:
 
 ```
-/linkedin-post
+/linkedin-project-post
 ```
 
 Or use natural language:
@@ -69,7 +69,7 @@ Feel free to fork, comment, and star the repo!
 ## Skill Structure
 
 ```
-linkedin-post/
+linkedin-project-post/
 ├── SKILL.md        # Skill definition and instructions
 ├── README.md       # This file
 ├── examples.md     # Example prompts and outputs
