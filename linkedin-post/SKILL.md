@@ -24,6 +24,7 @@ The post will include:
 
 | Section | Description |
 |---------|-------------|
+| **Screenshot** | Auto-captured screenshot of the demo site |
 | **Hook** | Exciting opening with emojis to grab attention |
 | **Live Demo Link** | URL to the deployed app |
 | **GitHub Repo Link** | URL to the source code |
@@ -32,6 +33,37 @@ The post will include:
 | **Tech Stack** | Technologies used with emoji icons |
 | **Call to Action** | Encourage fork, comment, discuss, star |
 | **Hashtags** | Relevant hashtags for visibility |
+
+## Screenshot Capture
+Before generating the post, automatically capture a screenshot of the demo site:
+
+### Method 1: Using Puppeteer (Node.js)
+```bash
+npx puppeteer screenshot [URL] --output screenshot.png --viewport 1200x630
+```
+
+### Method 2: Using Shot-scraper (Python)
+```bash
+pip install shot-scraper && shot-scraper install
+shot-scraper [URL] -o screenshot.png --width 1200 --height 630
+```
+
+### Method 3: Using Screenshot API
+```bash
+curl "https://api.screenshotone.com/take?url=[URL]&viewport_width=1200&viewport_height=630&format=png" -o screenshot.png
+```
+
+### Recommended Screenshot Settings
+- **Dimensions**: 1200x630px (LinkedIn optimal)
+- **Format**: PNG or JPG
+- **Wait**: 2-3 seconds for page load
+- **Full page**: No, capture viewport only
+
+### Screenshot Tips
+- Capture the hero section or main feature
+- Ensure the app is in a visually appealing state
+- If login required, capture the landing/login page
+- Save to project folder for easy upload
 
 ## Instructions
 When generating a LinkedIn post, follow this structure:
@@ -129,8 +161,9 @@ Use these emojis appropriately:
 
 ## Next Steps
 After generating the post:
-1. Review and personalize the content
-2. Add any screenshots or demo GIFs
-3. Tag relevant people or companies if applicable
-4. Post during peak LinkedIn hours (Tue-Thu, 8-10am)
-5. Engage with comments promptly
+1. Screenshot has been auto-captured to your project folder
+2. Review and personalize the content
+3. Upload the screenshot when creating the LinkedIn post
+4. Tag relevant people or companies if applicable
+5. Post during peak LinkedIn hours (Tue-Thu, 8-10am)
+6. Engage with comments promptly
