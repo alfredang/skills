@@ -1,5 +1,5 @@
 ---
-name: LinkedIn Project Post
+name: linkedin-project-post
 description: Generate exciting LinkedIn posts to showcase your vibe coding projects with emojis, hashtags, features, tech stack, and call-to-action for engagement.
 ---
 
