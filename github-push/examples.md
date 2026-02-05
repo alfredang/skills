@@ -2,7 +2,7 @@
 
 ## Trigger Phrases
 
-- `/github_push`
+- `/github-push`
 - "push to github"
 - "commit and push safely"
 - "push my changes with secret scan"
@@ -13,7 +13,7 @@
 
 ### Basic Push with Secret Scan
 ```
-User: /github_push
+User: /github-push
 
 Claude: I'll help you securely push to GitHub!
 

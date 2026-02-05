@@ -12,7 +12,7 @@ A collection of Claude Code skills to supercharge your development workflow. Ski
 | [readme](./readme) | Generate professional GitHub README.md files with badges, architecture diagrams, and setup instructions | `npx skills add https://github.com/alfredang/skills --skill readme` |
 | [linkedin-project-post](./linkedin-project-post) | Create exciting LinkedIn posts to showcase your vibe coding projects with emojis and hashtags | `npx skills add https://github.com/alfredang/skills --skill linkedin-project-post` |
 | [notebooklm](./notebooklm) | Deep research & slide presentation generator - research topics via NotebookLM MCP, generate slides with white background & Arial font | `npx skills add https://github.com/alfredang/skills --skill notebooklm` |
-| [github_push](./github_push) | Secure git push with automatic secret detection - scans for exposed API keys, passwords, and credentials before pushing to GitHub | `npx skills add https://github.com/alfredang/skills --skill github_push` |
+| [github-push](./github-push) | Secure git push with automatic secret detection - scans for exposed API keys, passwords, and credentials before pushing to GitHub | `npx skills add https://github.com/alfredang/skills --skill github-push` |
 
 ## Quick Install
 
@@ -33,7 +33,7 @@ npx skills add https://github.com/alfredang/skills --skill notebooklm
 
 ### GitHub Push (Secret Scanner)
 ```bash
-npx skills add https://github.com/alfredang/skills --skill github_push
+npx skills add https://github.com/alfredang/skills --skill github-push
 ```
 
 ## Fresh Install (All Platforms)
@@ -48,8 +48,8 @@ npx skills add https://github.com/alfredang/skills --skill readme
 rm -rf ~/.agents/skills/linkedin-project-post ~/.claude/skills/linkedin-project-post
 npx skills add https://github.com/alfredang/skills --skill linkedin-project-post
 
-rm -rf ~/.agents/skills/github_push ~/.claude/skills/github_push
-npx skills add https://github.com/alfredang/skills --skill github_push
+rm -rf ~/.agents/skills/github-push ~/.claude/skills/github-push
+npx skills add https://github.com/alfredang/skills --skill github-push
 ```
 
 ## Usage
@@ -60,7 +60,7 @@ Once installed, trigger skills in Claude Code:
 /readme                    # Generate a README
 /linkedin-project-post     # Create a LinkedIn post
 /notebooklm                # Create podcasts and notebooks
-/github_push               # Secure push with secret scan
+/github-push               # Secure push with secret scan
 ```
 
 Or use natural language:

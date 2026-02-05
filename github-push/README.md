@@ -9,7 +9,7 @@ Secure git push with automatic secret detection and README generation. Never acc
 ## Installation
 
 ```bash
-npx skills add https://github.com/alfredang/skills --skill github_push
+npx skills add https://github.com/alfredang/skills --skill github-push
 ```
 
 ## Usage
@@ -17,7 +17,7 @@ npx skills add https://github.com/alfredang/skills --skill github_push
 Once installed, trigger the skill using:
 
 ```
-/github_push
+/github-push
 ```
 
 Or use natural language:
@@ -66,7 +66,7 @@ Detects these secret types before any push:
 ## Skill Structure
 
 ```
-github_push/
+github-push/
 ├── SKILL.md        # Skill definition
 ├── README.md       # This file
 ├── examples.md     # Example usage

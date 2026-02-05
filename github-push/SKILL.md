@@ -6,7 +6,7 @@ description: Secure git push with automatic secret detection and README generati
 # GitHub Push
 
 ## Command
-`/github_push` or `github_push`
+`/github-push` or `github-push`
 
 ## Navigate
 Git & Security
