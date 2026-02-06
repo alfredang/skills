@@ -13,6 +13,7 @@ A collection of Claude Code skills to supercharge your development workflow. Ski
 | [linkedin-project-post](./linkedin-project-post) | Create exciting LinkedIn posts to showcase your vibe coding projects with emojis and hashtags | `npx skills add https://github.com/alfredang/skills --skill linkedin-project-post` |
 | [notebooklm](./notebooklm) | Deep research & slide presentation generator - research topics via NotebookLM MCP, generate slides with white background & Arial font | `npx skills add https://github.com/alfredang/skills --skill notebooklm` |
 | [github-push](./github-push) | Secure git push with automatic secret detection - scans for exposed API keys, passwords, and credentials before pushing to GitHub | `npx skills add https://github.com/alfredang/skills --skill github-push` |
+| [vercel-deployment](./vercel-deployment) | Deploy to Vercel with auto project naming from folder name and auto-disable Vercel Authentication | `npx skills add https://github.com/alfredang/skills --skill vercel-deployment` |
 
 ## Quick Install
 
@@ -36,6 +37,11 @@ npx skills add https://github.com/alfredang/skills --skill notebooklm
 npx skills add https://github.com/alfredang/skills --skill github-push
 ```
 
+### Vercel Deployment
+```bash
+npx skills add https://github.com/alfredang/skills --skill vercel-deployment
+```
+
 ## Fresh Install (All Platforms)
 
 If skills don't appear after install, do a fresh reinstall:
@@ -50,6 +56,9 @@ npx skills add https://github.com/alfredang/skills --skill linkedin-project-post
 
 rm -rf ~/.agents/skills/github-push ~/.claude/skills/github-push
 npx skills add https://github.com/alfredang/skills --skill github-push
+
+rm -rf ~/.agents/skills/vercel-deployment ~/.claude/skills/vercel-deployment
+npx skills add https://github.com/alfredang/skills --skill vercel-deployment
 ```
 
 ## Usage
@@ -61,6 +70,7 @@ Once installed, trigger skills in Claude Code:
 /linkedin-project-post     # Create a LinkedIn post
 /notebooklm                # Create podcasts and notebooks
 /github-push               # Secure push with secret scan
+/vercel-deployment         # Deploy to Vercel
 ```
 
 Or use natural language:
@@ -68,6 +78,7 @@ Or use natural language:
 - "write a linkedin post about my app"
 - "create a podcast about this topic"
 - "push to github safely" or "secure push"
+- "deploy to vercel" or "vercel deploy"
 
 ## Supported Platforms (40+ Agents)
 
