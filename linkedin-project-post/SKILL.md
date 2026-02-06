@@ -34,8 +34,14 @@ The post will include:
 | **Call to Action** | Encourage fork, comment, discuss, star |
 | **Hashtags** | Relevant hashtags for visibility |
 
-## Screenshot Capture
-Before generating the post, automatically capture a screenshot of the demo site and save to **~/Downloads** folder:
+## Screenshot / Image Attachment
+If a live demo URL is provided, **always** capture a screenshot and attach it as the LinkedIn post image. The screenshot serves as the visual preview that appears with the post — LinkedIn posts with images get significantly more engagement.
+
+### Capture Flow
+1. Check if the user already has a screenshot or image they want to use. If yes, use that.
+2. If a live demo URL is provided and no existing screenshot, auto-capture one using the methods below.
+3. Save the screenshot to **~/Downloads/linkedin-screenshot.png**.
+4. Open the Downloads folder so the user can easily drag-and-drop the image when composing the post.
 
 ### Using the included script (Recommended)
 ```bash
@@ -69,6 +75,7 @@ curl "https://api.screenshotone.com/take?url=[URL]&viewport_width=1200&viewport_
 - Ensure the app is in a visually appealing state
 - If login required, capture the landing/login page
 - Downloads folder opens automatically for easy upload
+- **Always remind the user to attach the screenshot** as the post image on LinkedIn
 
 ## Instructions
 When generating a LinkedIn post, follow this structure:
@@ -76,7 +83,7 @@ When generating a LinkedIn post, follow this structure:
 ### 1. Opening Hook
 Start with enthusiasm and relevant emojis:
 ```
-I'm thrilled to share a passion project I've been building — [Project Name] — [one-line description]! 🚀✨
+I'm thrilled to share a vibe-coding project I've been building — [Project Name] — [one-line description]! 🚀✨
 ```
 
 ### 2. Links Section
@@ -172,10 +179,12 @@ open "https://www.linkedin.com/feed/?shareActive=true"
 
 ## Next Steps
 After generating the post:
-1. Screenshot auto-saved to ~/Downloads/linkedin-screenshot.png
+1. Screenshot auto-captured and saved to ~/Downloads/linkedin-screenshot.png
 2. LinkedIn compose page opens in browser
 3. Paste the generated post text
-4. Click photo icon → upload screenshot from Downloads
+4. **Attach the screenshot as the post image** → Click the photo icon → upload linkedin-screenshot.png from Downloads
 5. Tag relevant people or companies if applicable
 6. Post during peak LinkedIn hours (Tue-Thu, 8-10am)
 7. Engage with comments promptly
+
+**Important**: Always attach the screenshot image to the post. LinkedIn posts with images receive up to 2x more engagement than text-only posts.

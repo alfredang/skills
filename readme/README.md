@@ -3,7 +3,7 @@
 [![Claude Code](https://img.shields.io/badge/Claude_Code-Skill-blueviolet)](https://docs.anthropic.com/en/docs/claude-code)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Generate professional GitHub README.md files following open standards with tech badges, architecture diagrams, setup instructions, and acknowledgements.
+Generate professional GitHub README.md files following open standards with tech badges, architecture diagrams, auto-captured screenshots via Playwright MCP, setup instructions, and acknowledgements.
 
 ## Installation
 
@@ -30,6 +30,7 @@ The generated README includes:
 
 | Section | Description |
 |---------|-------------|
+| **Screenshot** | Auto-captured from live site via Playwright MCP |
 | **Header** | Project name, badges, tagline, quick links |
 | **About** | Project description and key features |
 | **Tech Stack** | Technologies with shields.io badges |
@@ -53,6 +54,7 @@ readme/
 ## Requirements
 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) with an active subscription
+- [Playwright MCP](https://www.npmjs.com/package/@playwright/mcp) for auto-screenshot capture (optional — skips screenshot if unavailable)
 
 ## Keywords
 

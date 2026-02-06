@@ -1,6 +1,6 @@
 ---
 name: Create GitHub README
-description: Generate a professional GitHub README.md file following open standards with tech badges, architecture diagrams, setup instructions, and acknowledgements.
+description: Generate a professional GitHub README.md file following open standards with tech badges, architecture diagrams, auto-captured screenshots via Playwright MCP, setup instructions, and acknowledgements.
 ---
 
 # Create GitHub README
@@ -27,6 +27,7 @@ The README will include:
 
 | Section | Description |
 |---------|-------------|
+| **Screenshot** | Auto-captured via Playwright MCP (if live site exists) |
 | **Header** | Project name, badges, tagline, links |
 | **About** | Project description and key features |
 | **Tech Stack** | Technologies used with badges |
@@ -40,6 +41,64 @@ The README will include:
 
 ## Instructions
 When generating a README, follow this open standard structure:
+
+### 0. Screenshot Capture (Auto)
+
+Before generating the README, check if the project has a live demo URL. If found, use the **Playwright MCP** to capture a screenshot and save it to the project root.
+
+#### 0.1 Detect Live Demo URL
+
+Check these sources in order:
+1. User-provided URL
+2. `package.json` → `homepage` field
+3. Vercel project URL: `https://<project-name>.vercel.app`
+4. GitHub Pages URL: `https://<owner>.github.io/<repo>/`
+5. Any URL found in an existing README.md
+
+#### 0.2 Capture Screenshot with Playwright MCP
+
+Use the Playwright MCP tools in this sequence:
+
+```
+1. browser_navigate → Navigate to the live demo URL
+2. browser_wait_for_load_state → Wait for page to fully load (networkidle)
+3. browser_screenshot → Take a screenshot and save to project root
+```
+
+**Playwright MCP tool calls:**
+```
+Tool: browser_navigate
+Args: { "url": "<LIVE_DEMO_URL>" }
+
+Tool: browser_screenshot
+Args: { "name": "screenshot", "savePath": "<PROJECT_ROOT>/screenshot.png" }
+```
+
+After capturing, close the browser:
+```
+Tool: browser_close
+```
+
+#### 0.3 Add Screenshot to README
+
+Insert the screenshot after the header section:
+```markdown
+## Screenshot
+
+![Screenshot](screenshot.png)
+```
+
+If the screenshot shows the main UI or hero section, use it. If the page requires authentication or shows a loading state, note this and skip the screenshot.
+
+#### 0.4 If No Live URL Found
+
+Skip screenshot capture and add a commented-out placeholder:
+```markdown
+## Screenshot
+
+<!-- Add a screenshot of your app here -->
+<!-- ![Screenshot](screenshot.png) -->
+```
 
 ### 1. Header Section
 ```markdown
@@ -115,6 +174,7 @@ project/
 - Call to action: Star the repo
 
 ## Capabilities
+- Auto-capture screenshot of live site using Playwright MCP
 - Generate complete README.md following GitHub best practices
 - Include technology badges with shields.io
 - Create ASCII architecture diagrams
@@ -124,8 +184,8 @@ project/
 
 ## Next Steps
 After generating the README:
-1. Review and customize content for your project
-2. Update placeholder URLs and usernames
-3. Add screenshots if available
+1. Review the auto-captured screenshot (screenshot.png) — replace if needed
+2. Review and customize content for your project
+3. Update placeholder URLs and usernames
 4. Verify all links work
-5. Commit to repository
+5. Commit screenshot.png and README.md to repository

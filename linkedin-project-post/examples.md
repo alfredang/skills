@@ -19,7 +19,7 @@ User: Write an exciting linkedin post about my vibe coding project - it's a weat
 ## Example Output
 
 ```
-I'm thrilled to share a passion project I've been building — Hiking Advisor — your go-to web app for discovering trails and planning your next outdoor adventure! 🥾✨
+I'm thrilled to share a vibe-coding project I've been building — Hiking Advisor — your go-to web app for discovering trails and planning your next outdoor adventure! 🥾✨
 
 🌐 Check it out: https://hiking-advisor.netlify.app/
 
