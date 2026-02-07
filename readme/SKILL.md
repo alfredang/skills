@@ -1,6 +1,6 @@
 ---
 name: Create GitHub README
-description: Generate a professional GitHub README.md file following open standards with tech badges, architecture diagrams, auto-captured screenshots via Playwright MCP, setup instructions, and acknowledgements.
+description: Generate or update a professional GitHub README.md file following open standards with tech badges, architecture diagrams, auto-captured screenshots via Playwright MCP, setup instructions, and acknowledgements. Auto-pushes to GitHub after generation.
 ---
 
 # Create GitHub README
@@ -15,13 +15,13 @@ Documentation
 readme, github readme, create readme, generate readme, project readme, documentation, readme.md, update readme, write readme, project documentation
 
 ## Description
-Generate a professional GitHub README.md file for the WSQ Courseware Generator project following open standards and best practices.
+Generate or update a professional GitHub README.md file following open standards and best practices. If a README already exists and the user requests an update, regenerates it using the latest template including a fresh screenshot. Auto-pushes to GitHub after generation.
 
 ## Execution
 This skill runs using **Claude Code with subscription plan**. Do NOT use pay-as-you-go API keys. All AI operations should be executed through the Claude Code CLI environment with an active subscription.
 
 ## Response
-I'll generate a comprehensive GitHub README.md for the project.
+I'll generate (or update) a comprehensive GitHub README.md for the project, then push it to GitHub.
 
 The README will include:
 
@@ -40,7 +40,24 @@ The README will include:
 | **Acknowledgements** | Credits and thanks |
 
 ## Instructions
-When generating a README, follow this open standard structure:
+
+### Pre-check: Create or Update?
+
+Before generating, check if a `README.md` already exists:
+
+```bash
+ls README.md 2>/dev/null
+```
+
+**If README.md does NOT exist:** Proceed to create a new README from scratch (Section 0 onwards).
+
+**If README.md already exists AND the user requests an update:**
+1. Read the existing README to understand current content
+2. Regenerate the README using the latest template below, preserving project-specific details (description, features, tech stack) from the existing README
+3. Re-capture the screenshot using Playwright MCP to get the latest UI state
+4. Overwrite the existing README.md with the updated version
+
+When generating or updating a README, follow this open standard structure:
 
 ### 0. Screenshot Capture (Auto)
 
@@ -173,19 +190,30 @@ project/
 - Acknowledgements: Credits
 - Call to action: Star the repo
 
+### 11. Push to GitHub
+
+After generating or updating the README, invoke the `/github-push` skill to push changes to GitHub.
+
+The github-push skill will:
+1. Scan for exposed secrets (mandatory security check)
+2. Stage `README.md` and `screenshot.png` (if created)
+3. Commit with an appropriate message (e.g., `docs: generate README` or `docs: update README to latest template`)
+4. Push to the remote repository
+5. Auto-configure repo description, topics, and discussions if needed
+
 ## Capabilities
 - Auto-capture screenshot of live site using Playwright MCP
-- Generate complete README.md following GitHub best practices
+- Generate or update README.md following GitHub best practices
 - Include technology badges with shields.io
 - Create ASCII architecture diagrams
 - Document file structure
 - Provide multi-platform deployment instructions
 - Add proper attribution and acknowledgements
+- Auto-push to GitHub via `/github-push` skill after generation
 
 ## Next Steps
-After generating the README:
-1. Review the auto-captured screenshot (screenshot.png) — replace if needed
-2. Review and customize content for your project
-3. Update placeholder URLs and usernames
-4. Verify all links work
-5. Commit screenshot.png and README.md to repository
+After running `/create_github_readme`:
+1. Verify the push succeeded on GitHub
+2. Review the auto-captured screenshot (screenshot.png) — replace if needed
+3. Verify repo description, topics, and discussions are configured
+4. Share the repository link

@@ -1,6 +1,6 @@
 ---
 name: GitHub Push
-description: Secure git push with automatic secret detection and README generation. Scans for exposed API keys, credentials, and secrets before pushing to GitHub.
+description: Secure git push with automatic secret detection, README generation, and repository setup. Scans for secrets, auto-generates README, configures repo description/topics/discussions, and pushes to GitHub.
 ---
 
 # GitHub Push
@@ -15,7 +15,7 @@ Git & Security
 github push, git push, secret detection, api key scan, credential scan, security check, push to github, commit and push, secret scanner, readme generator, safe push, secure push, pre-push hook, leak detection, api key exposed, password exposed
 
 ## Description
-Securely push code to GitHub by automatically scanning for exposed secrets, API keys, and credentials. Optionally generates a professional README.md before pushing.
+Securely push code to GitHub by automatically scanning for exposed secrets, API keys, and credentials. Auto-generates README.md if missing, configures repo description, live site URL, topics, and enables GitHub Discussions.
 
 ## Execution
 This skill runs using **Claude Code with subscription plan**. Do NOT use pay-as-you-go API keys. All AI operations should be executed through the Claude Code CLI environment with an active subscription.
@@ -29,10 +29,11 @@ The workflow includes:
 |------|-------------|
 | **Secret Scan** | Detect exposed API keys, passwords, and credentials |
 | **File Review** | Check for sensitive files that shouldn't be committed |
-| **README Gen** | Optionally generate professional README.md |
+| **README Gen** | Auto-generate README.md via `/create_github_readme` skill if missing |
 | **Git Commit** | Stage and commit with AI-generated message |
 | **Push** | Push to remote repository |
 | **PR Create** | Optionally create a pull request |
+| **Repo Setup** | Auto-configure description, live site URL, topics, and discussions |
 
 ## Instructions
 
@@ -209,143 +210,21 @@ Security scan complete: No secrets detected.
 Proceeding with push...
 ```
 
-### Phase 2: README Generation (Optional)
+### Phase 2: README Generation
 
-If the user requests README generation OR if no README.md exists, generate one following the standard format:
-
-#### 2.1 Header Section
-```markdown
-<div align="center">
-
-# Project Name
-
-[![Badge1](url)](link)
-[![Badge2](url)](link)
-
-**Tagline describing the project**
-
-[Demo](url) | [Report Bug](url) | [Request Feature](url)
-
-</div>
-```
-
-#### 2.2 Required Badges
-Include relevant badges from shields.io:
-- Language/Runtime version (Python, Node.js, etc.)
-- Framework (React, Next.js, Django, etc.)
-- License
-- Build status
-- Deployment platform
-
-#### 2.3 About Section
-```markdown
-## About
-
-Brief 2-3 sentence description of what the project does.
-
-### Key Features
-
-- Feature 1
-- Feature 2
-- Feature 3
-```
-
-#### 2.4 Tech Stack
-```markdown
-## Tech Stack
-
-| Category | Technology |
-|----------|------------|
-| Frontend | React, TypeScript |
-| Backend | Node.js, Express |
-| Database | PostgreSQL |
-| Deployment | Vercel |
-```
-
-#### 2.5 Architecture Diagram
-Create ASCII art showing system architecture:
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Client    │────▶│   Server    │────▶│  Database   │
-└─────────────┘     └─────────────┘     └─────────────┘
-```
-
-#### 2.6 Project Structure
-```markdown
-## Project Structure
-
-```
-project/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── utils/
-├── public/
-├── package.json
-└── README.md
-```
-```
-
-#### 2.7 Getting Started
-```markdown
-## Getting Started
-
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-
-### Installation
+Check if a `README.md` exists in the project root:
 
 ```bash
-git clone https://github.com/user/repo.git
-cd repo
-npm install
+ls README.md 2>/dev/null
 ```
 
-### Running
+**If no README.md exists:**
+1. Invoke the `/create_github_readme` skill to generate a professional README
+2. The readme skill will auto-capture screenshots, add badges, tech stack, architecture diagrams, and more
+3. After the skill completes, stage the generated `README.md` (and `screenshot.png` if created)
 
-```bash
-npm run dev
-```
-```
-
-#### 2.8 Deployment
-```markdown
-## Deployment
-
-### Vercel
-[![Deploy with Vercel](https://vercel.com/button)](url)
-
-### Docker
-```bash
-docker build -t app .
-docker run -p 3000:3000 app
-```
-```
-
-#### 2.9 Contributing
-```markdown
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing`)
-5. Open a Pull Request
-```
-
-#### 2.10 Footer
-```markdown
-## License
-
-MIT
-
----
-
-<div align="center">
-Made with [Claude Code](https://claude.ai/code)
-</div>
-```
+**If README.md already exists:**
+- Skip this phase unless the user explicitly requests README regeneration
 
 ### Phase 3: Git Operations
 
@@ -418,14 +297,104 @@ EOF
 )"
 ```
 
+### Phase 5: Repository Setup
+
+After pushing, check and configure the GitHub repository settings.
+
+#### 5.1 Check Repository Description
+
+```bash
+gh repo view --json description,homepageUrl,repositoryTopics
+```
+
+**If description is empty:**
+1. Analyze the project codebase (README, package.json, main source files) to generate a short, compelling description (max 350 characters)
+2. Update the repo description:
+```bash
+gh repo edit --description "Your generated description"
+```
+
+#### 5.2 Set Live Site URL (Homepage)
+
+If the homepage URL is not set, detect the live site URL from these sources (in order):
+1. Vercel deployment: `https://<project-name>.vercel.app`
+2. `package.json` → `homepage` field
+3. GitHub Pages: `https://<owner>.github.io/<repo>/`
+4. Any deployment URL found in README.md or config files
+
+```bash
+gh repo edit --homepage "https://your-live-site.com"
+```
+
+#### 5.3 Add Repository Topics
+
+If no topics are set, generate relevant topics based on the project's tech stack and purpose:
+
+```bash
+gh repo edit --add-topic "topic1" --add-topic "topic2" --add-topic "topic3"
+```
+
+**Topic guidelines:**
+- Include the primary language (e.g., `python`, `typescript`, `javascript`)
+- Include the framework (e.g., `react`, `nextjs`, `django`, `fastapi`)
+- Include the domain (e.g., `ai`, `web-app`, `cli-tool`, `api`)
+- Include deployment platform if relevant (e.g., `vercel`, `docker`)
+- Keep topics lowercase, use hyphens for multi-word topics
+- Add 3-8 relevant topics
+
+#### 5.4 Enable Discussions
+
+Check if discussions are enabled:
+```bash
+gh repo view --json hasDiscussionsEnabled
+```
+
+**If discussions are NOT enabled:**
+```bash
+gh repo edit --enable-discussions
+```
+
+#### 5.5 Verify Discussion Categories
+
+After enabling discussions, GitHub automatically creates these default categories:
+- **Announcements** (megaphone) - Only maintainers can post
+- **General** (chat bubble)
+- **Ideas** (light bulb)
+- **Polls** (bar chart)
+- **Q&A** (question mark) - Answerable
+- **Show and tell** (rocket)
+
+Verify categories exist:
+```bash
+gh api graphql -f query='
+  query {
+    repository(owner: "{owner}", name: "{repo}") {
+      discussionCategories(first: 25) {
+        nodes {
+          name
+          emoji
+          description
+        }
+      }
+    }
+  }
+'
+```
+
+If default categories are present, discussions are fully set up. Report the available categories to the user.
+
+**Note:** Custom discussion categories cannot be created via API - they must be configured manually through the GitHub web UI at `https://github.com/{owner}/{repo}/discussions/categories`. Inform the user if custom categories are needed.
+
 ## Capabilities
 
 - Scan for 20+ types of exposed secrets and credentials
 - Detect sensitive files that shouldn't be committed
-- Auto-generate professional README.md
+- Auto-generate professional README.md via `/create_github_readme` skill
 - Create AI-powered commit messages
 - Push to GitHub with safety checks
 - Create pull requests with descriptions
+- Auto-set repo description, live site URL, and topics if missing
+- Auto-enable and verify GitHub Discussions
 - Support for all git workflows (feature branches, main)
 
 ## Security Patterns Detected
@@ -446,5 +415,7 @@ After running `/github_push`:
 1. Verify the push succeeded on GitHub
 2. Check Actions for CI/CD status
 3. Review the generated README
-4. Share PR link if created
-5. Monitor for any security alerts from GitHub
+4. Verify repo description, topics, and live site URL on GitHub
+5. Check that Discussions are enabled and categories are set up
+6. Share PR link if created
+7. Monitor for any security alerts from GitHub
