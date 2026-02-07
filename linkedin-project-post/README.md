@@ -31,6 +31,7 @@ The generated post includes:
 | Section | Description |
 |---------|-------------|
 | **Hook** | Exciting opening with emojis |
+| **Auto-Post** | Publish directly via LinkedIn MCP (if configured) |
 | **Live Demo** | Link to deployed app |
 | **GitHub Repo** | Link to source code |
 | **About** | Project description |
@@ -76,9 +77,27 @@ linkedin-project-post/
 └── scripts/        # Automation scripts (optional)
 ```
 
+## Auto-Post via LinkedIn MCP
+
+Configure a LinkedIn MCP server to publish posts automatically — no manual copy-paste needed.
+
+| MCP Server | Language | Supports Images |
+|-----------|----------|-----------------|
+| [lurenss/linkedin-mcp](https://github.com/lurenss/linkedin-mcp) | Node.js | Yes (`create_linkedin_image_post`) |
+| [Lnxtanx/LinkedIn-MCP](https://github.com/Lnxtanx/LinkedIn-MCP) | Python | Yes (`create_post` with `media_type: IMAGE`) |
+
+**Setup (one-time):**
+1. Create a [LinkedIn Developer App](https://www.linkedin.com/developers/)
+2. Request "Share on LinkedIn" product access
+3. Generate an OAuth access token
+4. Add the MCP server to your Claude Code config
+
+Without MCP, the skill falls back to opening LinkedIn in your browser for manual posting.
+
 ## Requirements
 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) with an active subscription
+- LinkedIn MCP server (optional, for auto-posting)
 
 ## Keywords
 

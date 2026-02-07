@@ -25,6 +25,7 @@ The post will include:
 | Section | Description |
 |---------|-------------|
 | **Screenshot** | Auto-captured screenshot of the demo site |
+| **Auto-Post** | Publish directly via LinkedIn MCP (if configured) |
 | **Hook** | Exciting opening with emojis to grab attention |
 | **Live Demo Link** | URL to the deployed app |
 | **GitHub Repo Link** | URL to the source code |
@@ -166,19 +167,132 @@ Use these emojis appropriately:
 
 ## Capabilities
 - Generate engaging LinkedIn posts for any coding project
+- Auto-post with image via LinkedIn MCP (lurenss/linkedin-mcp or Lnxtanx/LinkedIn-MCP)
+- Auto-capture screenshots for post images
 - Customize tone based on project type
 - Include relevant hashtags for discoverability
 - Create compelling calls-to-action
 - Highlight tech stack professionally
+- Fallback to manual browser flow if no MCP configured
 
-## Open LinkedIn to Post
-After generating the post, open LinkedIn's compose page:
+## Auto-Post via LinkedIn MCP (Recommended)
+
+If a LinkedIn MCP server is configured, **automatically publish the post with the screenshot image** instead of opening the browser. This is the preferred flow — zero manual steps.
+
+### Supported LinkedIn MCP Servers
+
+| MCP Server | Language | Tools | Install |
+|-----------|----------|-------|---------|
+| [lurenss/linkedin-mcp](https://github.com/lurenss/linkedin-mcp) | Node.js | `create_linkedin_post`, `create_linkedin_image_post` | `npm install` + build |
+| [Lnxtanx/LinkedIn-MCP](https://github.com/Lnxtanx/LinkedIn-MCP) | Python | `create_post` (text/image/video/doc) | `uv add fastmcp requests` |
+
+### Auto-Post Flow
+
+#### Step 1: Check if LinkedIn MCP is available
+
+Try calling the MCP tool to validate credentials:
+- **lurenss/linkedin-mcp**: Call `validate_linkedin_credentials` or `get_linkedin_profile`
+- **Lnxtanx/LinkedIn-MCP**: Call `create_post` with a dry-run or check for tool availability
+
+If no LinkedIn MCP is configured, fall back to the manual flow (open browser).
+
+#### Step 2: Post with image (preferred)
+
+**Using lurenss/linkedin-mcp:**
+```
+Tool: create_linkedin_image_post
+Arguments:
+  text: "<generated post text>"
+  image_path: "~/Downloads/linkedin-screenshot.png"
+```
+
+**Using Lnxtanx/LinkedIn-MCP:**
+```
+Tool: create_post
+Arguments:
+  text: "<generated post text>"
+  media_type: "IMAGE"
+  media_path: "~/Downloads/linkedin-screenshot.png"
+```
+
+#### Step 3: Post text-only (fallback if image fails)
+
+If the image upload fails, fall back to a text-only post:
+
+**Using lurenss/linkedin-mcp:**
+```
+Tool: create_linkedin_post
+Arguments:
+  text: "<generated post text>"
+```
+
+**Using Lnxtanx/LinkedIn-MCP:**
+```
+Tool: create_post
+Arguments:
+  text: "<generated post text>"
+  media_type: "TEXT"
+```
+
+#### Step 4: Confirm success
+
+After posting, report the result:
+```
+=== LinkedIn Post Published ===
+
+Status: PUBLISHED
+Type:   Image post
+Image:  ~/Downloads/linkedin-screenshot.png
+
+Your post is now live on LinkedIn!
+```
+
+### MCP Setup (One-time)
+
+To enable auto-posting, the user must configure a LinkedIn MCP server. Guide them through setup if not configured:
+
+**Option A: lurenss/linkedin-mcp (Node.js)**
+
+1. Create a LinkedIn Developer App at https://www.linkedin.com/developers/
+2. Add OAuth redirect URI: `http://localhost:8080/callback`
+3. Request "Share on LinkedIn" and "Sign In with LinkedIn" products
+4. Generate an access token (valid 60 days)
+5. Add to Claude Code MCP config (`~/.claude/settings.json` or project `.mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "linkedin-mcp": {
+      "command": "node",
+      "args": ["/path/to/linkedin-mcp/build/index.js"],
+      "env": {
+        "LINKEDIN_CLIENT_ID": "your_client_id",
+        "LINKEDIN_CLIENT_SECRET": "your_client_secret",
+        "LINKEDIN_ACCESS_TOKEN": "your_access_token"
+      }
+    }
+  }
+}
+```
+
+**Option B: Lnxtanx/LinkedIn-MCP (Python/FastMCP)**
+
+1. Same LinkedIn Developer App setup as above
+2. Get access token with `w_member_social` scope
+3. Get your Member URN (`urn:li:person:XXXXXXXXXX`)
+4. Configure credentials in `main.py`
+5. Run: `uv run fastmcp dev main.py`
+
+## Manual Fallback (No MCP)
+
+If no LinkedIn MCP is configured, fall back to the manual browser flow:
+
+### Open LinkedIn to Post
 ```bash
 open "https://www.linkedin.com/feed/?shareActive=true"
 ```
 
-## Next Steps
-After generating the post:
+### Manual Steps
 1. Screenshot auto-captured and saved to ~/Downloads/linkedin-screenshot.png
 2. LinkedIn compose page opens in browser
 3. Paste the generated post text
@@ -187,4 +301,13 @@ After generating the post:
 6. Post during peak LinkedIn hours (Tue-Thu, 8-10am)
 7. Engage with comments promptly
 
-**Important**: Always attach the screenshot image to the post. LinkedIn posts with images receive up to 2x more engagement than text-only posts.
+## Next Steps
+After the post is published (via MCP or manually):
+1. Verify the post appears on your LinkedIn feed
+2. Check that the image/screenshot is displaying correctly
+3. Tag relevant people or companies if applicable
+4. Post during peak LinkedIn hours (Tue-Thu, 8-10am) for best engagement
+5. Engage with comments promptly
+6. Share the post link with your team
+
+**Tip**: LinkedIn posts with images receive up to 2x more engagement than text-only posts. Always include the screenshot.
