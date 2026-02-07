@@ -58,7 +58,7 @@ Skills is a curated collection of reusable automation workflows for Claude Code 
 | [readme](./readme) | Generate or update professional README.md with Playwright screenshots & badges | `/create_github_readme` | `npx skills add https://github.com/alfredang/skills --skill readme` |
 | [github-page](./github-page) | Deploy to GitHub Pages with auto-generated Actions workflow | `/github-page` | `npx skills add https://github.com/alfredang/skills --skill github-page` |
 | [vercel-deployment](./vercel-deployment) | Deploy to Vercel with auto project naming & auth disable | `/vercel-deployment` | `npx skills add https://github.com/alfredang/skills --skill vercel-deployment` |
-| [linkedin-project-post](./linkedin-project-post) | Create exciting LinkedIn posts with emojis, hashtags & screenshots | `/linkedin-post` | `npx skills add https://github.com/alfredang/skills --skill linkedin-project-post` |
+| [linkedin-project-post](./linkedin-project-post) | Create LinkedIn posts with auto-publish via MCP, screenshots & hashtags | `/linkedin-post` | `npx skills add https://github.com/alfredang/skills --skill linkedin-project-post` |
 | [notebooklm](./notebooklm) | Deep research & slide presentations via NotebookLM MCP | `/notebooklm` | `npx skills add https://github.com/alfredang/skills --skill notebooklm` |
 
 ---
