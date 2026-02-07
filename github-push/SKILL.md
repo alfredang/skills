@@ -33,7 +33,7 @@ The workflow includes:
 | **Git Commit** | Stage and commit with AI-generated message |
 | **Push** | Push to remote repository |
 | **PR Create** | Optionally create a pull request |
-| **Repo Setup** | Auto-configure description, live site URL, topics, and discussions |
+| **Repo About** | Auto-invoke `/github-about` to set description, live site URL, and topics |
 
 ## Instructions
 
@@ -297,54 +297,21 @@ EOF
 )"
 ```
 
-### Phase 5: Repository Setup
+### Phase 5: Repository About (Auto-invoke `/github-about`)
 
-After pushing, check and configure the GitHub repository settings.
+After pushing, automatically run the `/github-about` skill to update the repo's About section.
 
-#### 5.1 Check Repository Description
+The `/github-about` skill will:
+1. **Description** — Analyze the codebase and set a compelling repo description (if not already set)
+2. **Live Site URL** — Detect deployment URLs (Vercel, GitHub Pages, Netlify, etc.) and set the homepage
+3. **Topics** — Analyze tech stack (languages, frameworks, platforms) and add relevant topics
 
-```bash
-gh repo view --json description,homepageUrl,repositoryTopics
-```
-
-**If description is empty:**
-1. Analyze the project codebase (README, package.json, main source files) to generate a short, compelling description (max 350 characters)
-2. Update the repo description:
-```bash
-gh repo edit --description "Your generated description"
-```
-
-#### 5.2 Set Live Site URL (Homepage)
-
-If the homepage URL is not set, detect the live site URL from these sources (in order):
-1. Vercel deployment: `https://<project-name>.vercel.app`
-2. `package.json` → `homepage` field
-3. GitHub Pages: `https://<owner>.github.io/<repo>/`
-4. Any deployment URL found in README.md or config files
-
-```bash
-gh repo edit --homepage "https://your-live-site.com"
-```
-
-#### 5.3 Add Repository Topics
-
-If no topics are set, generate relevant topics based on the project's tech stack and purpose:
-
-```bash
-gh repo edit --add-topic "topic1" --add-topic "topic2" --add-topic "topic3"
-```
-
-**Topic guidelines:**
-- Include the primary language (e.g., `python`, `typescript`, `javascript`)
-- Include the framework (e.g., `react`, `nextjs`, `django`, `fastapi`)
-- Include the domain (e.g., `ai`, `web-app`, `cli-tool`, `api`)
-- Include deployment platform if relevant (e.g., `vercel`, `docker`)
-- Keep topics lowercase, use hyphens for multi-word topics
-- Add 3-8 relevant topics
+Simply invoke `/github-about` — it handles authentication, detection, and updates automatically.
 
 #### 5.4 Enable Discussions
 
-Check if discussions are enabled:
+After `/github-about` completes, also enable discussions if not already enabled:
+
 ```bash
 gh repo view --json hasDiscussionsEnabled
 ```
@@ -354,37 +321,6 @@ gh repo view --json hasDiscussionsEnabled
 gh repo edit --enable-discussions
 ```
 
-#### 5.5 Verify Discussion Categories
-
-After enabling discussions, GitHub automatically creates these default categories:
-- **Announcements** (megaphone) - Only maintainers can post
-- **General** (chat bubble)
-- **Ideas** (light bulb)
-- **Polls** (bar chart)
-- **Q&A** (question mark) - Answerable
-- **Show and tell** (rocket)
-
-Verify categories exist:
-```bash
-gh api graphql -f query='
-  query {
-    repository(owner: "{owner}", name: "{repo}") {
-      discussionCategories(first: 25) {
-        nodes {
-          name
-          emoji
-          description
-        }
-      }
-    }
-  }
-'
-```
-
-If default categories are present, discussions are fully set up. Report the available categories to the user.
-
-**Note:** Custom discussion categories cannot be created via API - they must be configured manually through the GitHub web UI at `https://github.com/{owner}/{repo}/discussions/categories`. Inform the user if custom categories are needed.
-
 ## Capabilities
 
 - Scan for 20+ types of exposed secrets and credentials
@@ -393,8 +329,8 @@ If default categories are present, discussions are fully set up. Report the avai
 - Create AI-powered commit messages
 - Push to GitHub with safety checks
 - Create pull requests with descriptions
-- Auto-set repo description, live site URL, and topics if missing
-- Auto-enable and verify GitHub Discussions
+- Auto-invoke `/github-about` to set repo description, live site URL, and topics
+- Auto-enable GitHub Discussions
 - Support for all git workflows (feature branches, main)
 
 ## Security Patterns Detected
