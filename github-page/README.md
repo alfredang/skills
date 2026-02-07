@@ -33,6 +33,7 @@ Or use natural language:
 |---------|-------------|
 | **Auto-detect Project** | Detects static HTML, React, Vite, Next.js, Angular, MkDocs |
 | **Workflow Generation** | Creates `.github/workflows/deploy-pages.yml` automatically |
+| **Auto-authenticate** | Auto-runs `gh auth login --web` if not logged in — no manual auth needed |
 | **Auto-enable Pages** | Enables GitHub Pages via API — no manual config needed |
 | **Auto-enable Actions** | Enables GitHub Actions and triggers first deployment |
 | **Framework Config** | Warns about missing `base` (Vite) or `output: 'export'` (Next.js) |
@@ -79,7 +80,7 @@ github-page/
 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) with an active subscription
 - Git installed and configured with a GitHub remote
-- [GitHub CLI](https://cli.github.com/) (`gh`) installed and authenticated
+- [GitHub CLI](https://cli.github.com/) (`gh`) installed (auto-authenticates via browser if needed)
 
 ## Keywords
 

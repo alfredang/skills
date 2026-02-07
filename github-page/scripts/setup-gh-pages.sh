@@ -18,11 +18,14 @@ if ! command -v gh &> /dev/null; then
     exit 1
 fi
 
-# --- Step 2: Check authentication ---
+# --- Step 2: Auto-authenticate ---
 if ! gh auth status &> /dev/null 2>&1; then
-    echo "ERROR: Not logged in to GitHub CLI."
-    echo "Run: gh auth login"
-    exit 1
+    echo "Not authenticated. Starting browser login..."
+    if ! gh auth login --hostname github.com --git-protocol https --web; then
+        echo "ERROR: GitHub CLI authentication failed."
+        echo "Please try again or run manually: gh auth login"
+        exit 1
+    fi
 fi
 echo "Authenticated: $(gh auth status 2>&1 | grep 'Logged in' | head -1 | xargs)"
 

@@ -50,15 +50,25 @@ ERROR: GitHub CLI (gh) not found.
 Install: https://cli.github.com/
 ```
 
-#### 1.2 Verify Authentication
+#### 1.2 Verify & Auto-Authenticate
 ```bash
 gh auth status
 ```
 
-If not authenticated:
+If not authenticated, automatically initiate browser-based login:
+```bash
+gh auth login --hostname github.com --git-protocol https --web
 ```
-ERROR: Not logged in to GitHub CLI.
-Run: gh auth login
+
+This opens the user's browser for OAuth authentication — no manual steps required. After login completes, verify success:
+```bash
+gh auth status
+```
+
+If authentication still fails after the browser flow (e.g., user cancelled):
+```
+ERROR: GitHub CLI authentication failed.
+Please try again or run manually: gh auth login
 ```
 
 #### 1.3 Verify Git Remote
