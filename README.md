@@ -170,13 +170,34 @@ npx skills add https://github.com/alfredang/skills --skill linkedin-project-post
 npx skills add https://github.com/alfredang/skills --skill notebooklm
 ```
 
-### Fresh Install (All Platforms)
+### Update to Latest
 
-If skills don't appear after install, do a fresh reinstall:
+If the skill already exists, remove it first then reinstall to get the latest version:
 
 ```bash
+# Update a single skill
 rm -rf ~/.agents/skills/<skill-name> ~/.claude/skills/<skill-name>
 npx skills add https://github.com/alfredang/skills --skill <skill-name>
+```
+
+**Update all skills at once:**
+
+```bash
+# Remove all existing skills
+rm -rf ~/.agents/skills/github-push ~/.claude/skills/github-push
+rm -rf ~/.agents/skills/readme ~/.claude/skills/readme
+rm -rf ~/.agents/skills/github-page ~/.claude/skills/github-page
+rm -rf ~/.agents/skills/vercel-deployment ~/.claude/skills/vercel-deployment
+rm -rf ~/.agents/skills/linkedin-project-post ~/.claude/skills/linkedin-project-post
+rm -rf ~/.agents/skills/notebooklm ~/.claude/skills/notebooklm
+
+# Reinstall all with latest
+npx skills add https://github.com/alfredang/skills --skill github-push
+npx skills add https://github.com/alfredang/skills --skill readme
+npx skills add https://github.com/alfredang/skills --skill github-page
+npx skills add https://github.com/alfredang/skills --skill vercel-deployment
+npx skills add https://github.com/alfredang/skills --skill linkedin-project-post
+npx skills add https://github.com/alfredang/skills --skill notebooklm
 ```
 
 ---
@@ -232,18 +253,12 @@ Skills are automatically installed to all supported AI coding assistants (40+):
 
 ## Troubleshooting
 
-If a skill doesn't appear in `/skills`:
-
-1. Remove from both locations:
-   ```bash
-   rm -rf ~/.agents/skills/<skill-name> ~/.claude/skills/<skill-name>
-   ```
-2. Reinstall:
-   ```bash
-   npx skills add https://github.com/alfredang/skills --skill <skill-name>
-   ```
-3. Restart your editor/terminal
-4. Run `/skills` to verify
+| Issue | Solution |
+|-------|----------|
+| Skill doesn't appear in `/skills` | Remove and reinstall (see [Update to Latest](#update-to-latest)), then restart editor |
+| `npx skills add` says skill already exists | Remove existing first: `rm -rf ~/.agents/skills/<name> ~/.claude/skills/<name>` then reinstall |
+| Skill is outdated | Same as above — remove and reinstall to pull the latest version |
+| Skill not working after update | Restart your editor/terminal, then run `/skills` to verify |
 
 ---
 
