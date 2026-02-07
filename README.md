@@ -6,7 +6,7 @@
 ![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
 ![Shell](https://img.shields.io/badge/Shell-Scripts-4EAA25?logo=gnubash&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
-![Skills](https://img.shields.io/badge/Skills-6-blue)
+![Skills](https://img.shields.io/badge/Skills-7-blue)
 ![Platforms](https://img.shields.io/badge/Platforms-40+-orange)
 
 **A collection of Claude Code skills to supercharge your development workflow**
@@ -54,6 +54,7 @@ Skills is a curated collection of reusable automation workflows for Claude Code 
 | Skill | Description | Command | Install |
 |-------|-------------|---------|---------|
 | [github-push](./github-push) | Secure git push with secret detection, auto-README, repo setup & discussions | `/github-push` | `npx skills add https://github.com/alfredang/skills --skill github-push` |
+| [github-about](./github-about) | Auto-update repo description, live site URL & topics from codebase analysis | `/github-about` | `npx skills add https://github.com/alfredang/skills --skill github-about` |
 | [readme](./readme) | Generate or update professional README.md with Playwright screenshots & badges | `/create_github_readme` | `npx skills add https://github.com/alfredang/skills --skill readme` |
 | [github-page](./github-page) | Deploy to GitHub Pages with auto-generated Actions workflow | `/github-page` | `npx skills add https://github.com/alfredang/skills --skill github-page` |
 | [vercel-deployment](./vercel-deployment) | Deploy to Vercel with auto project naming & auth disable | `/vercel-deployment` | `npx skills add https://github.com/alfredang/skills --skill vercel-deployment` |
@@ -93,16 +94,17 @@ Skills is a curated collection of reusable automation workflows for Claude Code 
         ┌──────────┼──────────┬──────────┬─────────┐
         ▼          ▼          ▼          ▼         ▼
   ┌──────────┐ ┌────────┐ ┌────────┐ ┌───────┐ ┌──────┐
-  │ github-  │ │ readme │ │ vercel │ │github-│ │ more │
-  │  push    │ │        │ │ deploy │ │ page  │ │  ... │
-  └────┬─────┘ └───┬────┘ └───┬────┘ └───┬───┘ └──────┘
-       │           │          │          │
-       ▼           ▼          ▼          ▼
-  ┌──────────┐ ┌────────┐ ┌────────┐ ┌────────┐
-  │ Secret   │ │Playwr- │ │Vercel  │ │GitHub  │
-  │ Scanner  │ │ight MCP│ │  CLI   │ │Actions │
-  │ + gh CLI │ │+ gh CLI│ │+ API   │ │+ API   │
-  └──────────┘ └────────┘ └────────┘ └────────┘
+  ┌──────────┐ ┌────────┐ ┌────────┐ ┌───────┐ ┌───────┐
+  │ github-  │ │github- │ │ readme │ │vercel │ │github-│
+  │  push    │ │ about  │ │        │ │deploy │ │ page  │
+  └────┬─────┘ └───┬────┘ └───┬────┘ └───┬───┘ └───┬───┘
+       │           │          │          │         │
+       ▼           ▼          ▼          ▼         ▼
+  ┌──────────┐ ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐
+  │ Secret   │ │ gh CLI │ │Playwr- │ │Vercel  │ │GitHub  │
+  │ Scanner  │ │ Repo   │ │ight MCP│ │  CLI   │ │Actions │
+  │ + gh CLI │ │ API    │ │+ gh CLI│ │+ API   │ │+ API   │
+  └──────────┘ └────────┘ └────────┘ └────────┘ └────────┘
 ```
 
 ---
@@ -122,6 +124,10 @@ skills/
 │   ├── README.md               #   Usage documentation
 │   ├── examples.md             #   Example prompts & outputs
 │   └── scripts/                #   Helper scripts
+├── github-about/               # Auto-update repo description, URL & topics
+│   ├── SKILL.md                #   Skill definition & instructions
+│   ├── README.md               #   Usage documentation
+│   └── examples.md             #   Example prompts & outputs
 ├── github-page/                # GitHub Pages deployment
 │   ├── SKILL.md                #   Skill definition & instructions
 │   ├── README.md               #   Usage documentation
@@ -154,6 +160,9 @@ Install individual skills with a single command:
 # GitHub Push (Secret Scanner + Repo Setup)
 npx skills add https://github.com/alfredang/skills --skill github-push
 
+# GitHub About (Repo Description, URL & Topics)
+npx skills add https://github.com/alfredang/skills --skill github-about
+
 # README Generator (with Playwright screenshots)
 npx skills add https://github.com/alfredang/skills --skill readme
 
@@ -185,6 +194,7 @@ npx skills add https://github.com/alfredang/skills --skill <skill-name>
 ```bash
 # Remove all existing skills
 rm -rf ~/.agents/skills/github-push ~/.claude/skills/github-push
+rm -rf ~/.agents/skills/github-about ~/.claude/skills/github-about
 rm -rf ~/.agents/skills/readme ~/.claude/skills/readme
 rm -rf ~/.agents/skills/github-page ~/.claude/skills/github-page
 rm -rf ~/.agents/skills/vercel-deployment ~/.claude/skills/vercel-deployment
@@ -193,6 +203,7 @@ rm -rf ~/.agents/skills/notebooklm ~/.claude/skills/notebooklm
 
 # Reinstall all with latest
 npx skills add https://github.com/alfredang/skills --skill github-push
+npx skills add https://github.com/alfredang/skills --skill github-about
 npx skills add https://github.com/alfredang/skills --skill readme
 npx skills add https://github.com/alfredang/skills --skill github-page
 npx skills add https://github.com/alfredang/skills --skill vercel-deployment
@@ -217,6 +228,7 @@ Trigger skills with slash commands:
 
 ```
 /github-push               # Secure push with secret scan + repo setup
+/github-about              # Update repo description, URL & topics
 /create_github_readme      # Generate or update README
 /github-page               # Deploy to GitHub Pages
 /vercel-deployment         # Deploy to Vercel
@@ -227,6 +239,7 @@ Trigger skills with slash commands:
 Or use natural language:
 
 - "push to github safely"
+- "update my repo description and topics"
 - "create a readme for my project"
 - "update the readme"
 - "deploy to github pages"
