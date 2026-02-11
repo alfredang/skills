@@ -28,6 +28,7 @@ The workflow includes:
 | Step | Description |
 |------|-------------|
 | **Secret Scan** | Detect exposed API keys, passwords, and credentials |
+| **DS_Store Cleanup** | Remove `.DS_Store` files locally, from git, and add to `.gitignore` |
 | **File Review** | Check for sensitive files that shouldn't be committed |
 | **README Gen** | Auto-generate README.md via `/create_github_readme` skill if missing |
 | **Git Commit** | Stage and commit with AI-generated message |
@@ -136,10 +137,31 @@ private[_-]?key\s*[:=]\s*['"][^'"]+['"]
 eyJ[A-Za-z0-9_-]*\.eyJ[A-Za-z0-9_-]*\.[A-Za-z0-9_-]*
 ```
 
-#### 1.3 Check for Sensitive Files
+#### 1.3 Clean Up .DS_Store Files
+
+Remove all `.DS_Store` files locally and from git tracking, and ensure they are in `.gitignore`:
+
+```bash
+# Remove all .DS_Store files from the working directory
+find . -name '.DS_Store' -type f -delete
+
+# Remove any .DS_Store files tracked by git
+git rm -r --cached --ignore-unmatch '**/.DS_Store' '.DS_Store'
+```
+
+**Ensure `.gitignore` includes `.DS_Store`:**
+```bash
+# Check if .DS_Store is already in .gitignore
+grep -qx '.DS_Store' .gitignore 2>/dev/null || echo '.DS_Store' >> .gitignore
+```
+
+If `.gitignore` doesn't exist yet, create it with `.DS_Store` as an entry. Stage the updated `.gitignore` along with the other changes.
+
+#### 1.4 Check for Sensitive Files
 
 **Files that should NEVER be committed:**
 - `.env`, `.env.*` (environment files)
+- `.DS_Store` (macOS metadata files)
 - `*.pem`, `*.key`, `*.p12`, `*.pfx` (certificates/keys)
 - `credentials.json`, `secrets.json`, `config.secret.*`
 - `id_rsa`, `id_dsa`, `id_ecdsa`, `id_ed25519` (SSH keys)
@@ -165,10 +187,10 @@ Secrets should NEVER be hardcoded in configuration files like:
 
 **Verify .gitignore includes:**
 ```bash
-grep -E "^\.env|^\.env\.|\.pem$|\.key$|credentials|secrets" .gitignore
+grep -E "^\.env|^\.env\.|\.pem$|\.key$|credentials|secrets|\.DS_Store" .gitignore
 ```
 
-#### 1.4 Secret Detection Results
+#### 1.5 Secret Detection Results
 
 **If secrets are found:**
 1. **STOP** - Do not proceed with push
@@ -325,6 +347,7 @@ gh repo edit --enable-discussions
 
 - Scan for 20+ types of exposed secrets and credentials
 - Detect sensitive files that shouldn't be committed
+- Auto-remove `.DS_Store` files locally and from git tracking
 - Auto-generate professional README.md via `/create_github_readme` skill
 - Create AI-powered commit messages
 - Push to GitHub with safety checks

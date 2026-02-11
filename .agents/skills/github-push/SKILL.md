@@ -1,6 +1,6 @@
 ---
 name: GitHub Push
-description: Secure git push with automatic secret detection and README generation. Scans for exposed API keys, credentials, and secrets before pushing to GitHub.
+description: Secure git push with automatic secret detection, README generation, and repository setup. Scans for secrets, auto-generates README, configures repo description/topics/discussions, and pushes to GitHub.
 ---
 
 # GitHub Push
@@ -15,7 +15,7 @@ Git & Security
 github push, git push, secret detection, api key scan, credential scan, security check, push to github, commit and push, secret scanner, readme generator, safe push, secure push, pre-push hook, leak detection, api key exposed, password exposed
 
 ## Description
-Securely push code to GitHub by automatically scanning for exposed secrets, API keys, and credentials. Optionally generates a professional README.md before pushing.
+Securely push code to GitHub by automatically scanning for exposed secrets, API keys, and credentials. Auto-generates README.md if missing, configures repo description, live site URL, topics, and enables GitHub Discussions.
 
 ## Execution
 This skill runs using **Claude Code with subscription plan**. Do NOT use pay-as-you-go API keys. All AI operations should be executed through the Claude Code CLI environment with an active subscription.
@@ -28,11 +28,13 @@ The workflow includes:
 | Step | Description |
 |------|-------------|
 | **Secret Scan** | Detect exposed API keys, passwords, and credentials |
+| **DS_Store Cleanup** | Remove `.DS_Store` files locally, from git, and add to `.gitignore` |
 | **File Review** | Check for sensitive files that shouldn't be committed |
-| **README Gen** | Optionally generate professional README.md |
+| **README Gen** | Auto-generate README.md via `/create_github_readme` skill if missing |
 | **Git Commit** | Stage and commit with AI-generated message |
 | **Push** | Push to remote repository |
 | **PR Create** | Optionally create a pull request |
+| **Repo About** | Auto-invoke `/github-about` to set description, live site URL, and topics |
 
 ## Instructions
 
@@ -135,10 +137,31 @@ private[_-]?key\s*[:=]\s*['"][^'"]+['"]
 eyJ[A-Za-z0-9_-]*\.eyJ[A-Za-z0-9_-]*\.[A-Za-z0-9_-]*
 ```
 
-#### 1.3 Check for Sensitive Files
+#### 1.3 Clean Up .DS_Store Files
+
+Remove all `.DS_Store` files locally and from git tracking, and ensure they are in `.gitignore`:
+
+```bash
+# Remove all .DS_Store files from the working directory
+find . -name '.DS_Store' -type f -delete
+
+# Remove any .DS_Store files tracked by git
+git rm -r --cached --ignore-unmatch '**/.DS_Store' '.DS_Store'
+```
+
+**Ensure `.gitignore` includes `.DS_Store`:**
+```bash
+# Check if .DS_Store is already in .gitignore
+grep -qx '.DS_Store' .gitignore 2>/dev/null || echo '.DS_Store' >> .gitignore
+```
+
+If `.gitignore` doesn't exist yet, create it with `.DS_Store` as an entry. Stage the updated `.gitignore` along with the other changes.
+
+#### 1.4 Check for Sensitive Files
 
 **Files that should NEVER be committed:**
 - `.env`, `.env.*` (environment files)
+- `.DS_Store` (macOS metadata files)
 - `*.pem`, `*.key`, `*.p12`, `*.pfx` (certificates/keys)
 - `credentials.json`, `secrets.json`, `config.secret.*`
 - `id_rsa`, `id_dsa`, `id_ecdsa`, `id_ed25519` (SSH keys)
@@ -164,10 +187,10 @@ Secrets should NEVER be hardcoded in configuration files like:
 
 **Verify .gitignore includes:**
 ```bash
-grep -E "^\.env|^\.env\.|\.pem$|\.key$|credentials|secrets" .gitignore
+grep -E "^\.env|^\.env\.|\.pem$|\.key$|credentials|secrets|\.DS_Store" .gitignore
 ```
 
-#### 1.4 Secret Detection Results
+#### 1.5 Secret Detection Results
 
 **If secrets are found:**
 1. **STOP** - Do not proceed with push
@@ -209,143 +232,21 @@ Security scan complete: No secrets detected.
 Proceeding with push...
 ```
 
-### Phase 2: README Generation (Optional)
+### Phase 2: README Generation
 
-If the user requests README generation OR if no README.md exists, generate one following the standard format:
-
-#### 2.1 Header Section
-```markdown
-<div align="center">
-
-# Project Name
-
-[![Badge1](url)](link)
-[![Badge2](url)](link)
-
-**Tagline describing the project**
-
-[Demo](url) | [Report Bug](url) | [Request Feature](url)
-
-</div>
-```
-
-#### 2.2 Required Badges
-Include relevant badges from shields.io:
-- Language/Runtime version (Python, Node.js, etc.)
-- Framework (React, Next.js, Django, etc.)
-- License
-- Build status
-- Deployment platform
-
-#### 2.3 About Section
-```markdown
-## About
-
-Brief 2-3 sentence description of what the project does.
-
-### Key Features
-
-- Feature 1
-- Feature 2
-- Feature 3
-```
-
-#### 2.4 Tech Stack
-```markdown
-## Tech Stack
-
-| Category | Technology |
-|----------|------------|
-| Frontend | React, TypeScript |
-| Backend | Node.js, Express |
-| Database | PostgreSQL |
-| Deployment | Vercel |
-```
-
-#### 2.5 Architecture Diagram
-Create ASCII art showing system architecture:
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Client    │────▶│   Server    │────▶│  Database   │
-└─────────────┘     └─────────────┘     └─────────────┘
-```
-
-#### 2.6 Project Structure
-```markdown
-## Project Structure
-
-```
-project/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── utils/
-├── public/
-├── package.json
-└── README.md
-```
-```
-
-#### 2.7 Getting Started
-```markdown
-## Getting Started
-
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-
-### Installation
+Check if a `README.md` exists in the project root:
 
 ```bash
-git clone https://github.com/user/repo.git
-cd repo
-npm install
+ls README.md 2>/dev/null
 ```
 
-### Running
+**If no README.md exists:**
+1. Invoke the `/create_github_readme` skill to generate a professional README
+2. The readme skill will auto-capture screenshots, add badges, tech stack, architecture diagrams, and more
+3. After the skill completes, stage the generated `README.md` (and `screenshot.png` if created)
 
-```bash
-npm run dev
-```
-```
-
-#### 2.8 Deployment
-```markdown
-## Deployment
-
-### Vercel
-[![Deploy with Vercel](https://vercel.com/button)](url)
-
-### Docker
-```bash
-docker build -t app .
-docker run -p 3000:3000 app
-```
-```
-
-#### 2.9 Contributing
-```markdown
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing`)
-5. Open a Pull Request
-```
-
-#### 2.10 Footer
-```markdown
-## License
-
-MIT
-
----
-
-<div align="center">
-Made with [Claude Code](https://claude.ai/code)
-</div>
-```
+**If README.md already exists:**
+- Skip this phase unless the user explicitly requests README regeneration
 
 ### Phase 3: Git Operations
 
@@ -418,14 +319,41 @@ EOF
 )"
 ```
 
+### Phase 5: Repository About (Auto-invoke `/github-about`)
+
+After pushing, automatically run the `/github-about` skill to update the repo's About section.
+
+The `/github-about` skill will:
+1. **Description** — Analyze the codebase and set a compelling repo description (if not already set)
+2. **Live Site URL** — Detect deployment URLs (Vercel, GitHub Pages, Netlify, etc.) and set the homepage
+3. **Topics** — Analyze tech stack (languages, frameworks, platforms) and add relevant topics
+
+Simply invoke `/github-about` — it handles authentication, detection, and updates automatically.
+
+#### 5.4 Enable Discussions
+
+After `/github-about` completes, also enable discussions if not already enabled:
+
+```bash
+gh repo view --json hasDiscussionsEnabled
+```
+
+**If discussions are NOT enabled:**
+```bash
+gh repo edit --enable-discussions
+```
+
 ## Capabilities
 
 - Scan for 20+ types of exposed secrets and credentials
 - Detect sensitive files that shouldn't be committed
-- Auto-generate professional README.md
+- Auto-remove `.DS_Store` files locally and from git tracking
+- Auto-generate professional README.md via `/create_github_readme` skill
 - Create AI-powered commit messages
 - Push to GitHub with safety checks
 - Create pull requests with descriptions
+- Auto-invoke `/github-about` to set repo description, live site URL, and topics
+- Auto-enable GitHub Discussions
 - Support for all git workflows (feature branches, main)
 
 ## Security Patterns Detected
@@ -446,5 +374,7 @@ After running `/github_push`:
 1. Verify the push succeeded on GitHub
 2. Check Actions for CI/CD status
 3. Review the generated README
-4. Share PR link if created
-5. Monitor for any security alerts from GitHub
+4. Verify repo description, topics, and live site URL on GitHub
+5. Check that Discussions are enabled and categories are set up
+6. Share PR link if created
+7. Monitor for any security alerts from GitHub
