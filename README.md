@@ -6,7 +6,7 @@
 ![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
 ![Shell](https://img.shields.io/badge/Shell-Scripts-4EAA25?logo=gnubash&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
-![Skills](https://img.shields.io/badge/Skills-7-blue)
+![Skills](https://img.shields.io/badge/Skills-8-blue)
 ![Platforms](https://img.shields.io/badge/Platforms-40+-orange)
 
 **A collection of Claude Code skills to supercharge your development workflow**
@@ -45,6 +45,7 @@ Skills is a curated collection of reusable automation workflows for Claude Code 
 - **Auto Documentation** — Generate professional READMEs with screenshots, badges, and architecture diagrams
 - **One-Click Deploy** — Deploy to Vercel or GitHub Pages with zero manual configuration
 - **Social Sharing** — Create engaging LinkedIn posts to showcase your projects
+- **Docker Hub** — Build and push Docker images to Docker Hub with auto-generated Dockerfiles
 - **AI Research** — Deep research and slide generation via NotebookLM
 
 ---
@@ -59,6 +60,7 @@ Skills is a curated collection of reusable automation workflows for Claude Code 
 | [github-page](./github-page) | Deploy to GitHub Pages with auto-generated Actions workflow | `/github-page` | `npx skills add https://github.com/alfredang/skills --skill github-page` |
 | [vercel-deployment](./vercel-deployment) | Deploy to Vercel with auto project naming & auth disable | `/vercel-deployment` | `npx skills add https://github.com/alfredang/skills --skill vercel-deployment` |
 | [linkedin-project-post](./linkedin-project-post) | Create LinkedIn posts with auto-publish via MCP, screenshots & hashtags | `/linkedin-post` | `npx skills add https://github.com/alfredang/skills --skill linkedin-project-post` |
+| [docker-hub](./docker-hub) | Build & push Docker images to Docker Hub with auto-generated Dockerfiles | `/docker-hub` | `npx skills add https://github.com/alfredang/skills --skill docker-hub` |
 | [notebooklm](./notebooklm) | Deep research & slide presentations via NotebookLM MCP | `/notebooklm` | `npx skills add https://github.com/alfredang/skills --skill notebooklm` |
 
 ---
@@ -70,7 +72,7 @@ Skills is a curated collection of reusable automation workflows for Claude Code 
 | Runtime | Node.js 18+, Shell/Bash |
 | AI Platform | Claude Code (Anthropic) |
 | Automation | Playwright MCP, GitHub CLI (`gh`) |
-| Deployment | Vercel CLI, GitHub Actions, GitHub Pages |
+| Deployment | Vercel CLI, GitHub Actions, GitHub Pages, Docker Hub |
 | Package Manager | npx (skills CLI) |
 | Research | NotebookLM MCP |
 
@@ -144,6 +146,8 @@ skills/
 │   ├── examples.md             #   Example prompts & outputs
 │   └── scripts/
 │       └── capture-screenshot.sh  # Screenshot capture script
+├── docker-hub/                 # Docker Hub build & push
+│   └── SKILL.md                #   Skill definition & instructions
 ├── notebooklm/                 # NotebookLM research & slides
 │   ├── SKILL.md                #   Skill definition & instructions
 │   └── README.md               #   Usage documentation
@@ -172,6 +176,9 @@ npx skills add https://github.com/alfredang/skills --skill github-page
 # Vercel Deployment
 npx skills add https://github.com/alfredang/skills --skill vercel-deployment
 
+# Docker Hub (Build & Push Images)
+npx skills add https://github.com/alfredang/skills --skill docker-hub
+
 # LinkedIn Post Generator
 npx skills add https://github.com/alfredang/skills --skill linkedin-project-post
 
@@ -198,6 +205,7 @@ rm -rf ~/.agents/skills/github-about ~/.claude/skills/github-about
 rm -rf ~/.agents/skills/readme ~/.claude/skills/readme
 rm -rf ~/.agents/skills/github-page ~/.claude/skills/github-page
 rm -rf ~/.agents/skills/vercel-deployment ~/.claude/skills/vercel-deployment
+rm -rf ~/.agents/skills/docker-hub ~/.claude/skills/docker-hub
 rm -rf ~/.agents/skills/linkedin-project-post ~/.claude/skills/linkedin-project-post
 rm -rf ~/.agents/skills/notebooklm ~/.claude/skills/notebooklm
 
@@ -207,6 +215,7 @@ npx skills add https://github.com/alfredang/skills --skill github-about
 npx skills add https://github.com/alfredang/skills --skill readme
 npx skills add https://github.com/alfredang/skills --skill github-page
 npx skills add https://github.com/alfredang/skills --skill vercel-deployment
+npx skills add https://github.com/alfredang/skills --skill docker-hub
 npx skills add https://github.com/alfredang/skills --skill linkedin-project-post
 npx skills add https://github.com/alfredang/skills --skill notebooklm
 ```
@@ -219,6 +228,7 @@ npx skills add https://github.com/alfredang/skills --skill notebooklm
 - [Node.js](https://nodejs.org/) 18+ (for `npx skills`)
 - [Git](https://git-scm.com/) & [GitHub CLI](https://cli.github.com/) (`gh`) — for github-push, github-page
 - [Vercel CLI](https://vercel.com/cli) — for vercel-deployment (optional)
+- [Docker](https://docs.docker.com/get-docker/) — for docker-hub (optional)
 
 ---
 
@@ -232,6 +242,7 @@ Trigger skills with slash commands:
 /create_github_readme      # Generate or update README
 /github-page               # Deploy to GitHub Pages
 /vercel-deployment         # Deploy to Vercel
+/docker-hub                # Build & push to Docker Hub
 /linkedin-post             # Create a LinkedIn post
 /notebooklm                # Deep research & slides
 ```
@@ -244,6 +255,7 @@ Or use natural language:
 - "update the readme"
 - "deploy to github pages"
 - "deploy to vercel"
+- "push docker image to docker hub"
 - "write a linkedin post about my app"
 - "create a podcast about this topic"
 
