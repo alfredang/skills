@@ -175,6 +175,18 @@ project/
 - Clone & install steps
 - Environment setup
 - Run command
+- **Docker (if Dockerfile exists):** Check if a `Dockerfile` exists in the project root. If found, add a Docker subsection with build and run instructions:
+  ```markdown
+  ### Docker
+
+  Build and run using Docker:
+
+  ```bash
+  docker build -t <project-name> .
+  docker run -p <port>:<port> <project-name>
+  ```
+  ```
+  Detect the exposed port from the Dockerfile's `EXPOSE` directive or the app's default port. If a `docker-compose.yml` also exists, include `docker compose up` as the preferred method.
 
 ### 8. Deployment
 - Docker instructions
