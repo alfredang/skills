@@ -46,7 +46,7 @@ Skills is a curated collection of reusable automation workflows for Claude Code 
 - **One-Click Deploy** — Deploy to Vercel or GitHub Pages with zero manual configuration
 - **Social Sharing** — Create engaging LinkedIn posts to showcase your projects
 - **Docker Hub** — Build and push Docker images to Docker Hub with auto-generated Dockerfiles
-- **Start App** — Auto-detect and start any Node.js, Python, Go, Rust, Ruby, Java, or PHP app on localhost
+- **Start App** — Auto-detect and start any Node.js, Python, Go, Rust, Ruby, Java, or PHP app on localhost with auto-open browser
 - **AI Research** — Deep research and slide generation via NotebookLM
 
 ---
@@ -62,7 +62,7 @@ Skills is a curated collection of reusable automation workflows for Claude Code 
 | [vercel-deployment](./vercel-deployment) | Deploy to Vercel with auto project naming & auth disable | `/vercel-deployment` | `npx skills add https://github.com/alfredang/skills --skill vercel-deployment` |
 | [linkedin-project-post](./linkedin-project-post) | Create LinkedIn posts with auto-publish via MCP, screenshots & hashtags | `/linkedin-post` | `npx skills add https://github.com/alfredang/skills --skill linkedin-project-post` |
 | [docker-hub](./docker-hub) | Build & push Docker images to Docker Hub with auto-generated Dockerfiles | `/docker-hub` | `npx skills add https://github.com/alfredang/skills --skill docker-hub` |
-| [start-app](./start-app) | Auto-detect & start any app on localhost (Node.js, Python, Go, Rust, Ruby, Java, PHP) | `/start-app` | `npx skills add https://github.com/alfredang/skills --skill start-app` |
+| [start-app](./start-app) | Auto-detect & start any app on localhost with auto-open browser (Node.js, Python, Go, Rust, Ruby, Java, PHP) | `/start-app` | `npx skills add https://github.com/alfredang/skills --skill start-app` |
 | [notebooklm](./notebooklm) | Deep research & slide presentations via NotebookLM MCP | `/notebooklm` | `npx skills add https://github.com/alfredang/skills --skill notebooklm` |
 
 ---
