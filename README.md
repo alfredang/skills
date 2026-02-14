@@ -6,7 +6,7 @@
 ![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
 ![Shell](https://img.shields.io/badge/Shell-Scripts-4EAA25?logo=gnubash&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
-![Skills](https://img.shields.io/badge/Skills-8-blue)
+![Skills](https://img.shields.io/badge/Skills-9-blue)
 ![Platforms](https://img.shields.io/badge/Platforms-40+-orange)
 
 **A collection of Claude Code skills to supercharge your development workflow**
@@ -46,6 +46,7 @@ Skills is a curated collection of reusable automation workflows for Claude Code 
 - **One-Click Deploy** — Deploy to Vercel or GitHub Pages with zero manual configuration
 - **Social Sharing** — Create engaging LinkedIn posts to showcase your projects
 - **Docker Hub** — Build and push Docker images to Docker Hub with auto-generated Dockerfiles
+- **Start App** — Auto-detect and start any project on localhost with one command
 - **AI Research** — Deep research and slide generation via NotebookLM
 
 ---
@@ -61,6 +62,7 @@ Skills is a curated collection of reusable automation workflows for Claude Code 
 | [vercel-deployment](./vercel-deployment) | Deploy to Vercel with auto project naming & auth disable | `/vercel-deployment` | `npx skills add https://github.com/alfredang/skills --skill vercel-deployment` |
 | [linkedin-project-post](./linkedin-project-post) | Create LinkedIn posts with auto-publish via MCP, screenshots & hashtags | `/linkedin-post` | `npx skills add https://github.com/alfredang/skills --skill linkedin-project-post` |
 | [docker-hub](./docker-hub) | Build & push Docker images to Docker Hub with auto-generated Dockerfiles | `/docker-hub` | `npx skills add https://github.com/alfredang/skills --skill docker-hub` |
+| [start-app](./start-app) | Auto-detect project type & start any app on localhost | `/start-app` | `npx skills add https://github.com/alfredang/skills --skill start-app` |
 | [notebooklm](./notebooklm) | Deep research & slide presentations via NotebookLM MCP | `/notebooklm` | `npx skills add https://github.com/alfredang/skills --skill notebooklm` |
 
 ---
@@ -148,6 +150,8 @@ skills/
 │       └── capture-screenshot.sh  # Screenshot capture script
 ├── docker-hub/                 # Docker Hub build & push
 │   └── SKILL.md                #   Skill definition & instructions
+├── start-app/                  # Auto-detect & start any app on localhost
+│   └── SKILL.md                #   Skill definition & instructions
 ├── notebooklm/                 # NotebookLM research & slides
 │   ├── SKILL.md                #   Skill definition & instructions
 │   └── README.md               #   Usage documentation
@@ -179,6 +183,9 @@ npx skills add https://github.com/alfredang/skills --skill vercel-deployment
 # Docker Hub (Build & Push Images)
 npx skills add https://github.com/alfredang/skills --skill docker-hub
 
+# Start App (Auto-detect & run on localhost)
+npx skills add https://github.com/alfredang/skills --skill start-app
+
 # LinkedIn Post Generator
 npx skills add https://github.com/alfredang/skills --skill linkedin-project-post
 
@@ -206,6 +213,7 @@ rm -rf ~/.agents/skills/readme ~/.claude/skills/readme
 rm -rf ~/.agents/skills/github-page ~/.claude/skills/github-page
 rm -rf ~/.agents/skills/vercel-deployment ~/.claude/skills/vercel-deployment
 rm -rf ~/.agents/skills/docker-hub ~/.claude/skills/docker-hub
+rm -rf ~/.agents/skills/start-app ~/.claude/skills/start-app
 rm -rf ~/.agents/skills/linkedin-project-post ~/.claude/skills/linkedin-project-post
 rm -rf ~/.agents/skills/notebooklm ~/.claude/skills/notebooklm
 
@@ -216,6 +224,7 @@ npx skills add https://github.com/alfredang/skills --skill readme
 npx skills add https://github.com/alfredang/skills --skill github-page
 npx skills add https://github.com/alfredang/skills --skill vercel-deployment
 npx skills add https://github.com/alfredang/skills --skill docker-hub
+npx skills add https://github.com/alfredang/skills --skill start-app
 npx skills add https://github.com/alfredang/skills --skill linkedin-project-post
 npx skills add https://github.com/alfredang/skills --skill notebooklm
 ```
@@ -243,6 +252,7 @@ Trigger skills with slash commands:
 /github-page               # Deploy to GitHub Pages
 /vercel-deployment         # Deploy to Vercel
 /docker-hub                # Build & push to Docker Hub
+/start-app                 # Auto-detect & start app on localhost
 /linkedin-post             # Create a LinkedIn post
 /notebooklm                # Deep research & slides
 ```
@@ -256,6 +266,8 @@ Or use natural language:
 - "deploy to github pages"
 - "deploy to vercel"
 - "push docker image to docker hub"
+- "start the app"
+- "run the app on localhost"
 - "write a linkedin post about my app"
 - "create a podcast about this topic"
 

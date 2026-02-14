@@ -1,0 +1,308 @@
+---
+name: start-app
+description: Auto-detect project type and start any app on localhost. Kills conflicting processes, detects the right start command, and launches the dev server. Use when running "start app", "run the app", "start the server", or any local development server task.
+---
+
+# Start App
+
+Auto-detect project type and start any application on localhost. Kills any existing process on the target port, determines the correct start command, and launches the development server.
+
+## Command
+`/start-app` or `start-app`
+
+## Navigate
+Development & Local Server
+
+## Keywords
+start app, run app, start server, run server, localhost, dev server, start development, run development, npm start, npm run dev, python run, go run, streamlit, flask, django, fastapi, rails, cargo run, start project, launch app, open app, run project, serve, live server
+
+## Description
+Automatically detects the project type from configuration files, determines the correct start command, kills any process already running on the target port, and starts the application on localhost. Supports Node.js (React, Next.js, Vite, Express, Astro, Remix, Nuxt, SvelteKit), Python (Streamlit, Flask, Django, FastAPI, Uvicorn), Go, Rust, Ruby (Rails, Sinatra), Java (Maven, Gradle), PHP (Laravel, Artisan), and static sites.
+
+## Execution
+This skill runs using **Claude Code with subscription plan**. Do NOT use pay-as-you-go API keys. All AI operations should be executed through the Claude Code CLI environment with an active subscription.
+
+## Response
+I'll detect your project type and start the app on localhost!
+
+The workflow includes:
+
+| Step | Description |
+|------|-------------|
+| **Detect** | Identify project type from config files |
+| **Resolve** | Determine the correct start command and port |
+| **Kill** | Stop any existing process on the target port |
+| **Clean** | Clear framework-specific caches if applicable |
+| **Start** | Launch the development server on localhost |
+
+## Instructions
+
+When executing `/start-app`, follow this workflow:
+
+### Phase 1: Detect Project Type
+
+Scan the current directory for configuration files to determine the project type and framework. Check in this order:
+
+#### 1.1 Node.js Detection
+Check for `package.json`:
+```bash
+cat package.json 2>/dev/null
+```
+
+If `package.json` exists, read it and detect the framework:
+
+| Check | Framework | Indicator |
+|-------|-----------|-----------|
+| `dependencies` or `devDependencies` contains `next` | Next.js | `next` package |
+| `dependencies` or `devDependencies` contains `nuxt` | Nuxt | `nuxt` package |
+| `dependencies` or `devDependencies` contains `@remix-run` | Remix | `@remix-run/*` packages |
+| `dependencies` or `devDependencies` contains `astro` | Astro | `astro` package |
+| `dependencies` or `devDependencies` contains `@sveltejs/kit` | SvelteKit | `@sveltejs/kit` package |
+| `dependencies` or `devDependencies` contains `vite` or `@vitejs` | Vite | `vite` package |
+| `dependencies` or `devDependencies` contains `react-scripts` | Create React App | `react-scripts` package |
+| `dependencies` or `devDependencies` contains `gatsby` | Gatsby | `gatsby` package |
+| `dependencies` or `devDependencies` contains `streamlit` | Streamlit (Node wrapper) | Rare but check |
+| `dependencies` or `devDependencies` contains `express` | Express | `express` package |
+| Has `scripts.dev` | Generic Node.js | dev script |
+| Has `scripts.start` | Generic Node.js | start script |
+
+**Determine start command from `package.json` scripts:**
+1. If `scripts.dev` exists → `npm run dev`
+2. If `scripts.start` exists → `npm start`
+3. If `scripts.serve` exists → `npm run serve`
+4. If `scripts.develop` exists → `npm run develop`
+
+**Determine default port from framework:**
+
+| Framework | Default Port |
+|-----------|-------------|
+| Next.js | 3000 |
+| Nuxt | 3000 |
+| Remix | 5173 |
+| Astro | 4321 |
+| SvelteKit | 5173 |
+| Vite (React/Vue/Svelte) | 5173 |
+| Create React App | 3000 |
+| Gatsby | 8000 |
+| Express | 3000 |
+| Generic Node.js | 3000 |
+
+#### 1.2 Python Detection
+
+Check for Python project files in this order:
+
+| File | Framework/Tool | Start Command | Default Port |
+|------|---------------|---------------|-------------|
+| `streamlit_app.py` or any `*.py` importing streamlit | Streamlit | `streamlit run <file>` | 8501 |
+| `manage.py` | Django | `python manage.py runserver` | 8000 |
+| `app.py` with Flask import | Flask | `python app.py` or `flask run` | 5000 |
+| `main.py` with FastAPI/Uvicorn | FastAPI | `uvicorn main:app --reload` | 8000 |
+| `pyproject.toml` with `[tool.streamlit]` | Streamlit | `streamlit run app.py` | 8501 |
+| `requirements.txt` with streamlit | Streamlit | Find main `.py` file with `st.` usage | 8501 |
+| `requirements.txt` with flask | Flask | `flask run` or `python app.py` | 5000 |
+| `requirements.txt` with django | Django | `python manage.py runserver` | 8000 |
+| `requirements.txt` with fastapi | FastAPI | `uvicorn main:app --reload` | 8000 |
+| `pyproject.toml` with scripts | Python (generic) | Use defined script | 8000 |
+| `main.py` or `app.py` (generic) | Python | `python main.py` or `python app.py` | 8000 |
+
+**Streamlit-specific detection:**
+```bash
+# Check for streamlit in requirements
+grep -i streamlit requirements.txt pyproject.toml 2>/dev/null
+
+# Find the main streamlit file
+grep -rl "import streamlit\|from streamlit\|st\." *.py 2>/dev/null | head -1
+```
+
+#### 1.3 Go Detection
+Check for `go.mod`:
+```bash
+ls go.mod 2>/dev/null
+```
+- **Start command:** `go run .` or `go run main.go`
+- **Default port:** 8080
+
+#### 1.4 Rust Detection
+Check for `Cargo.toml`:
+```bash
+ls Cargo.toml 2>/dev/null
+```
+- **Start command:** `cargo run`
+- **Default port:** 8080
+
+#### 1.5 Ruby Detection
+Check for Ruby project files:
+
+| File | Framework | Start Command | Default Port |
+|------|-----------|---------------|-------------|
+| `Gemfile` with `rails` | Rails | `rails server` or `bin/rails server` | 3000 |
+| `config.ru` | Rack | `rackup` | 9292 |
+| `Gemfile` with `sinatra` | Sinatra | `ruby app.rb` | 4567 |
+
+#### 1.6 Java Detection
+
+| File | Build Tool | Start Command | Default Port |
+|------|-----------|---------------|-------------|
+| `pom.xml` | Maven | `mvn spring-boot:run` or `mvn exec:java` | 8080 |
+| `build.gradle` or `build.gradle.kts` | Gradle | `./gradlew bootRun` or `./gradlew run` | 8080 |
+
+#### 1.7 PHP Detection
+
+| File | Framework | Start Command | Default Port |
+|------|-----------|---------------|-------------|
+| `artisan` | Laravel | `php artisan serve` | 8000 |
+| `composer.json` | PHP (generic) | `php -S localhost:8000` | 8000 |
+| `index.php` | PHP (static) | `php -S localhost:8000` | 8000 |
+
+#### 1.8 Static Site Detection
+If only `index.html` exists (no framework files):
+- **Start command:** `npx serve` or `python -m http.server 8000`
+- **Default port:** 3000 (serve) or 8000 (python)
+
+#### 1.9 Unknown Project
+If no project type can be detected:
+- List the files in the current directory
+- Ask the user what type of project this is and how to start it
+- Do NOT guess — ask the user
+
+### Phase 2: Install Dependencies (if needed)
+
+Before starting, check if dependencies are installed:
+
+**Node.js:**
+```bash
+# Check if node_modules exists
+ls node_modules 2>/dev/null
+```
+If `node_modules` does not exist:
+```bash
+npm install
+```
+
+**Python (pip):**
+```bash
+# Check if requirements are installed
+pip list 2>/dev/null | head -5
+```
+If dependencies appear missing, install them:
+```bash
+pip install -r requirements.txt
+```
+
+**Python (uv):**
+```bash
+uv sync
+```
+
+**Python (poetry):**
+```bash
+poetry install
+```
+
+**Ruby:**
+```bash
+bundle install
+```
+
+**Go:**
+```bash
+go mod download
+```
+
+**Rust:**
+Dependencies are fetched automatically on `cargo run`.
+
+### Phase 3: Kill Existing Process on Port
+
+Before starting the app, kill any process already running on the detected port:
+
+```bash
+PORT=<detected_port>
+lsof -ti:$PORT | xargs kill -9 2>/dev/null
+```
+
+If on Linux and `lsof` is not available:
+```bash
+fuser -k $PORT/tcp 2>/dev/null
+```
+
+### Phase 4: Clear Caches (framework-specific)
+
+Clear any framework-specific caches to ensure a clean start:
+
+**Streamlit:**
+```bash
+rm -rf ~/.streamlit/cache __pycache__ .streamlit/cache
+```
+
+**Next.js:**
+```bash
+rm -rf .next
+```
+
+**Nuxt:**
+```bash
+rm -rf .nuxt .output
+```
+
+**Vite:**
+```bash
+rm -rf node_modules/.vite
+```
+
+**Django:**
+```bash
+find . -path "*/__pycache__" -type d -exec rm -rf {} + 2>/dev/null
+```
+
+**Generic Python:**
+```bash
+find . -path "*/__pycache__" -type d -exec rm -rf {} + 2>/dev/null
+rm -rf .pytest_cache
+```
+
+Only clear caches for the detected framework. Do not clear caches for frameworks not in use.
+
+### Phase 5: Start the Application
+
+Run the determined start command:
+
+```bash
+<detected_start_command>
+```
+
+**Important execution notes:**
+- Run the command in the background or as a long-running process
+- Print the localhost URL after starting: `http://localhost:<port>`
+- If the app fails to start, read the error output and report to the user
+- Do NOT silently retry — show errors and let the user decide
+
+### Summary Output
+
+After starting, display:
+
+```
+Project type: <detected_type>
+Framework:    <detected_framework>
+Command:      <start_command>
+URL:          http://localhost:<port>
+```
+
+## Capabilities
+
+- Auto-detect 20+ project types and frameworks from config files
+- Determine the correct start command from package.json scripts or framework conventions
+- Kill conflicting processes on the target port before starting
+- Clear framework-specific caches for clean starts
+- Install missing dependencies automatically
+- Support for Node.js, Python, Go, Rust, Ruby, Java, PHP, and static sites
+- Smart Streamlit detection (searches for `st.` imports in Python files)
+- Graceful fallback: asks the user when project type is unknown
+
+## Notes
+
+- The detected port is a default — if the app logs a different port on startup, use that instead
+- For projects with multiple entry points, the skill picks the most common convention (e.g., `main.py`, `app.py`, `index.js`)
+- Cache clearing is optional and framework-specific — only clears caches for the detected framework
+- If `node_modules` exists, dependencies are not reinstalled unless the user requests it
+- The skill does NOT modify any project files — it only reads configuration and runs commands
