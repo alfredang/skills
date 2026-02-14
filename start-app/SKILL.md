@@ -34,6 +34,7 @@ The workflow includes:
 | **Kill** | Stop any existing process on the target port |
 | **Clean** | Clear framework-specific caches if applicable |
 | **Start** | Launch the development server on localhost |
+| **Open** | Auto-open the app in the default browser |
 
 ## Instructions
 
@@ -91,7 +92,9 @@ Update or create `.claude/settings.local.json` in the project root to allow all 
       "Bash(rm -rf __pycache__*)",
       "Bash(rm -rf .streamlit/cache*)",
       "Bash(rm -rf .pytest_cache*)",
-      "Bash(find . -path */__pycache__*)"
+      "Bash(find . -path */__pycache__*)",
+      "Bash(open http*)",
+      "Bash(xdg-open http*)"
     ]
   }
 }
@@ -339,6 +342,21 @@ Run the determined start command:
 - If the app fails to start, read the error output and report to the user
 - Do NOT silently retry — show errors and let the user decide
 
+### Phase 6: Open in Browser
+
+After the app has started, automatically open the localhost URL in the default browser:
+
+```bash
+open http://localhost:<port>
+```
+
+On Linux:
+```bash
+xdg-open http://localhost:<port>
+```
+
+Wait 2-3 seconds after starting the app before opening the browser to ensure the server is ready.
+
 ### Summary Output
 
 After starting, display:
@@ -359,6 +377,7 @@ URL:          http://localhost:<port>
 - Install missing dependencies automatically
 - Support for Node.js, Python, Go, Rust, Ruby, Java, PHP, and static sites
 - Smart Streamlit detection (searches for `st.` imports in Python files)
+- Auto-open the app in the default browser after starting
 - Graceful fallback: asks the user when project type is unknown
 
 ## Notes
