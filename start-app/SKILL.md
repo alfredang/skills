@@ -1,11 +1,11 @@
 ---
 name: start-app
-description: Auto-detect project type and start any app on localhost. Kills conflicting processes, detects the right start command, and launches the dev server. Use when running "start app", "run the app", "start the server", or any local development server task.
+description: Auto-detect project type and start any app on localhost. Finds an available port with no conflicts, detects the right start command, and launches the dev server. Use when running "start app", "run the app", "start the server", or any local development server task.
 ---
 
 # Start App
 
-Auto-detect project type and start any application on localhost. Kills any existing process on the target port, determines the correct start command, and launches the development server.
+Auto-detect project type and start any application on localhost. Finds an available port that doesn't conflict with any existing processes, determines the correct start command, and launches the development server.
 
 ## Command
 `/start-app` or `start-app`
@@ -17,7 +17,7 @@ Development & Local Server
 start app, run app, start server, run server, localhost, dev server, start development, run development, npm start, npm run dev, python run, go run, streamlit, flask, django, fastapi, rails, cargo run, start project, launch app, open app, run project, serve, live server
 
 ## Description
-Automatically detects the project type from configuration files, determines the correct start command, kills any process already running on the target port, and starts the application on localhost. Supports Node.js (React, Next.js, Vite, Express, Astro, Remix, Nuxt, SvelteKit), Python (Streamlit, Flask, Django, FastAPI, Uvicorn), Go, Rust, Ruby (Rails, Sinatra), Java (Maven, Gradle), PHP (Laravel, Artisan), and static sites.
+Automatically detects the project type from configuration files, determines the correct start command, finds an available port that doesn't conflict with any running processes, and starts the application on localhost. Supports Node.js (React, Next.js, Vite, Express, Astro, Remix, Nuxt, SvelteKit), Python (Streamlit, Flask, Django, FastAPI, Uvicorn), Go, Rust, Ruby (Rails, Sinatra), Java (Maven, Gradle), PHP (Laravel, Artisan), and static sites.
 
 ## Execution
 This skill runs using **Claude Code with subscription plan**. Do NOT use pay-as-you-go API keys. All AI operations should be executed through the Claude Code CLI environment with an active subscription.
@@ -31,7 +31,7 @@ The workflow includes:
 |------|-------------|
 | **Detect** | Identify project type from config files |
 | **Resolve** | Determine the correct start command and port |
-| **Kill** | Stop any existing process on the target port |
+| **Port** | Find an available port (skip occupied ports) |
 | **Clean** | Clear framework-specific caches if applicable |
 | **Start** | Launch the development server on localhost |
 | **Open** | Auto-open the app in the default browser |
@@ -82,8 +82,10 @@ Update or create `.claude/settings.local.json` in the project root to allow all 
       "Bash(./gradlew *)",
       "Bash(php *)",
       "Bash(lsof *)",
-      "Bash(fuser *)",
-      "Bash(kill *)",
+      "Bash(ss *)",
+      "Bash(while lsof*)",
+      "Bash(while ss*)",
+      "Bash(PORT=*)",
       "Bash(rm -rf .next*)",
       "Bash(rm -rf .nuxt*)",
       "Bash(rm -rf .output*)",
@@ -277,18 +279,37 @@ go mod download
 **Rust:**
 Dependencies are fetched automatically on `cargo run`.
 
-### Phase 3: Kill Existing Process on Port
+### Phase 3: Find Available Port
 
-Before starting the app, kill any process already running on the detected port:
+Before starting the app, check if the default port is already in use. If it is, find the next available port instead of killing the existing process.
+
+**Check if port is in use:**
+```bash
+lsof -ti:<detected_port> 2>/dev/null
+```
+
+If the command returns a PID (port is occupied), increment the port and check again. Repeat until a free port is found:
 
 ```bash
 PORT=<detected_port>
-lsof -ti:$PORT | xargs kill -9 2>/dev/null
+while lsof -ti:$PORT >/dev/null 2>&1; do
+  PORT=$((PORT + 1))
+done
+echo "Available port: $PORT"
 ```
 
-If on Linux and `lsof` is not available:
+On Linux if `lsof` is not available, use `ss`:
 ```bash
-fuser -k $PORT/tcp 2>/dev/null
+PORT=<detected_port>
+while ss -tlnp | grep -q ":$PORT "; do
+  PORT=$((PORT + 1))
+done
+echo "Available port: $PORT"
+```
+
+Use the resolved `$PORT` value for all subsequent phases. If the port changed from the default, inform the user:
+```
+Default port <detected_port> is in use. Using port <resolved_port> instead.
 ```
 
 ### Phase 4: Clear Caches (framework-specific)
@@ -330,11 +351,39 @@ Only clear caches for the detected framework. Do not clear caches for frameworks
 
 ### Phase 5: Start the Application
 
-Run the determined start command:
+Run the determined start command. If the resolved port differs from the framework default, pass the port explicitly using the appropriate flag or environment variable for each framework:
 
-```bash
-<detected_start_command>
-```
+**Port override flags by framework:**
+
+| Framework | Port Override |
+|-----------|--------------|
+| Next.js | `npm run dev -- --port <port>` or `npx next dev --port <port>` |
+| Nuxt | `npm run dev -- --port <port>` |
+| Vite (React/Vue/Svelte) | `npm run dev -- --port <port>` |
+| Create React App | `PORT=<port> npm start` |
+| Gatsby | `npm run develop -- --port <port>` or `npx gatsby develop -p <port>` |
+| Astro | `npm run dev -- --port <port>` |
+| SvelteKit | `npm run dev -- --port <port>` |
+| Remix | `npm run dev -- --port <port>` |
+| Express | `PORT=<port> npm start` (or `PORT=<port> node <entry>`) |
+| Generic Node.js | `PORT=<port> npm run dev` or `PORT=<port> npm start` |
+| Streamlit | `streamlit run <file> --server.port <port>` |
+| Flask | `flask run --port <port>` or `PORT=<port> python app.py` |
+| Django | `python manage.py runserver <port>` |
+| FastAPI / Uvicorn | `uvicorn main:app --reload --port <port>` |
+| Go | `PORT=<port> go run .` |
+| Rust | `PORT=<port> cargo run` |
+| Rails | `rails server -p <port>` |
+| Sinatra | `PORT=<port> ruby app.rb` |
+| Rack | `rackup -p <port>` |
+| Maven | `mvn spring-boot:run -Dserver.port=<port>` |
+| Gradle | `./gradlew bootRun --args='--server.port=<port>'` |
+| PHP artisan | `php artisan serve --port=<port>` |
+| PHP built-in | `php -S localhost:<port>` |
+| npx serve (static) | `npx serve -l <port>` |
+| Python http.server (static) | `python -m http.server <port>` |
+
+If the resolved port matches the framework default, use the standard start command without a port override.
 
 **Important execution notes:**
 - Run the command in the background or as a long-running process
@@ -365,14 +414,18 @@ After starting, display:
 Project type: <detected_type>
 Framework:    <detected_framework>
 Command:      <start_command>
-URL:          http://localhost:<port>
+Default port: <detected_port>
+Actual port:  <resolved_port>
+URL:          http://localhost:<resolved_port>
 ```
+
+If the resolved port differs from the default, include a note explaining which ports were occupied.
 
 ## Capabilities
 
 - Auto-detect 20+ project types and frameworks from config files
 - Determine the correct start command from package.json scripts or framework conventions
-- Kill conflicting processes on the target port before starting
+- Automatically find an available port that doesn't conflict with running processes
 - Clear framework-specific caches for clean starts
 - Install missing dependencies automatically
 - Support for Node.js, Python, Go, Rust, Ruby, Java, PHP, and static sites
@@ -382,6 +435,7 @@ URL:          http://localhost:<port>
 
 ## Notes
 
+- The skill never kills existing processes — it finds the next available port so multiple servers can run simultaneously
 - The detected port is a default — if the app logs a different port on startup, use that instead
 - For projects with multiple entry points, the skill picks the most common convention (e.g., `main.py`, `app.py`, `index.js`)
 - Cache clearing is optional and framework-specific — only clears caches for the detected framework
