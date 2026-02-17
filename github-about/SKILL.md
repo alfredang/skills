@@ -1,6 +1,6 @@
 ---
 name: GitHub About
-description: Auto-update GitHub repo description, live site URL, and topics. Analyzes your codebase to generate a compelling description, detects deployment URLs, and adds relevant topics. Use when setting up a repo, after deploying, or to polish your GitHub presence.
+description: Auto-update GitHub repo description, live site URL, and topics. Analyzes your codebase to generate a compelling description, detects deployment URLs, and adds relevant topics. Use when setting up a repo, after deploying, or to polish your GitHub presence. Use when the user says "update github about", "update repo about", "set repo description", "add topics", "update about section", "github about", or any reference to updating a GitHub repository's about/description/topics/homepage.
 ---
 
 # GitHub About
@@ -12,13 +12,31 @@ description: Auto-update GitHub repo description, live site URL, and topics. Ana
 Git & Repository
 
 ## Keywords
-github about, repo description, github topics, live site url, homepage url, repo setup, github metadata, repo settings, github description, add topics, set homepage, repo about, github profile, project metadata
+github about, repo description, github topics, live site url, homepage url, repo setup, github metadata, repo settings, github description, add topics, set homepage, repo about, github profile, project metadata, update about, update repo, update github, update description, set topics, repo about section, about section, update repo about, update github about
 
 ## Description
 Automatically update your GitHub repository's About section — description, live site URL, and topics — by analyzing your codebase. No manual repo settings needed.
 
 ## Execution
 This skill runs using **Claude Code with subscription plan**. Do NOT use pay-as-you-go API keys. All AI operations should be executed through the Claude Code CLI environment with an active subscription.
+
+**IMPORTANT: Auto-trigger behavior**
+This skill should be automatically invoked (without the user needing to type `/github-about`) whenever the user asks to:
+- Update the GitHub about section
+- Set or change the repo description
+- Add topics to the repo
+- Set the homepage/live site URL
+- Update repo metadata
+- "Polish" or "set up" their GitHub repo
+
+When auto-triggered, run the full workflow silently and report results at the end.
+
+## Environment Setup
+Before running ANY `gh` commands, always source the token:
+```bash
+source ~/.zshrc 2>/dev/null
+```
+This loads `GH_TOKEN` which the `gh` CLI uses automatically for authentication. This MUST be done at the start of every execution.
 
 ## Response
 I'll update your GitHub repo's About section!
@@ -27,7 +45,8 @@ The workflow includes:
 
 | Step | Description |
 |------|-------------|
-| **Auth Check** | Verify `gh` CLI and auto-authenticate if needed |
+| **Env Setup** | Source `~/.zshrc` to load `GH_TOKEN` |
+| **Auth Check** | Verify `gh` CLI authentication via token |
 | **Repo Info** | Extract owner/repo from git remote |
 | **Description** | Generate and set a compelling repo description |
 | **Live Site** | Detect and set the live site URL |
@@ -50,21 +69,27 @@ ERROR: GitHub CLI (gh) not found.
 Install: https://cli.github.com/
 ```
 
-#### 1.2 Auto-Authenticate
+#### 1.2 Authenticate with GH_TOKEN
+The `GH_TOKEN` environment variable is already configured in `~/.zshrc`. The `gh` CLI automatically uses `GH_TOKEN` when present — no browser login needed.
+
+**Authentication check order:**
+1. Source the token and verify:
+```bash
+source ~/.zshrc 2>/dev/null
+echo "GH_TOKEN is set: ${GH_TOKEN:+yes}"
+```
+
+2. Verify it works:
 ```bash
 gh auth status
 ```
 
-If not authenticated, automatically initiate browser-based login:
+3. If `GH_TOKEN` is not set and `gh auth status` fails, fall back to browser login:
 ```bash
 gh auth login --hostname github.com --git-protocol https --web
 ```
 
-If authentication still fails after the browser flow:
-```
-ERROR: GitHub CLI authentication failed.
-Please try again or run manually: gh auth login
-```
+**Important:** Always run `source ~/.zshrc` before any `gh` commands to ensure `GH_TOKEN` is loaded into the current shell session. The `gh` CLI respects `GH_TOKEN` and `GITHUB_TOKEN` environment variables automatically — no extra configuration needed.
 
 #### 1.3 Extract Owner/Repo
 ```bash
@@ -254,7 +279,8 @@ Topics:      react, nextjs, typescript (added 3 new)
 - Detect live site URLs from Vercel, GitHub Pages, Netlify, and more
 - Analyze tech stack to generate relevant repository topics
 - Preserve existing topics when adding new ones
-- Auto-authenticate GitHub CLI via browser if needed
+- Authenticate via `GH_TOKEN` from `~/.zshrc` (no browser login needed)
+- Falls back to browser-based `gh auth login` if token is unavailable
 - Works with any project type (Node.js, Python, Rust, Go, etc.)
 
 ## Next Steps

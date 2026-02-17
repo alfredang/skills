@@ -4,10 +4,16 @@
 
 - `/github-about`
 - "update my repo about section"
+- "update the github about"
+- "update github about section"
 - "set github description and topics"
 - "add topics to my github repo"
 - "set the live site url"
 - "update repo metadata"
+- "update the repo description"
+- "set up the github repo"
+- "polish my github repo"
+- "update about"
 
 ## Example 1: Static HTML Game Project
 
