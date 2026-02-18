@@ -15,6 +15,11 @@
 
 </div>
 
+## Screenshot
+
+<!-- Add a screenshot of your app here -->
+<!-- ![Screenshot](screenshot.png) -->
+
 ---
 
 ## Table of Contents
@@ -373,7 +378,21 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
+## Acknowledgements
+
+- [Anthropic](https://www.anthropic.com/) — Claude Code platform
+- [Playwright](https://playwright.dev/) — Browser automation for screenshot capture
+- [shields.io](https://shields.io/) — Badge generation
+- [GitHub CLI](https://cli.github.com/) — Repository management automation
+- Thanks to all contributors and the Claude Code community
+
+---
+
 <div align="center">
+
+**Developed by [Tertiary Infotech Academy Pte. Ltd.](https://github.com/alfredang)**
+
+If you find these skills useful, please give us a star!
 
 Made with [Claude Code](https://claude.ai/code)
 

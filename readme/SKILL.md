@@ -53,17 +53,33 @@ ls README.md 2>/dev/null
 
 **If README.md already exists AND the user requests an update:**
 1. Read the existing README to understand current content
-2. Regenerate the README using the latest template below, preserving project-specific details (description, features, tech stack) from the existing README
-3. Re-capture the screenshot using Playwright MCP to get the latest UI state
-4. Overwrite the existing README.md with the updated version
+2. Check if the README already contains a screenshot (see Section 0.1)
+3. Regenerate the README using the latest template below, preserving project-specific details (description, features, tech stack) from the existing README
+4. Only re-capture the screenshot if the README is missing one (see Section 0)
+5. Overwrite the existing README.md with the updated version
 
 When generating or updating a README, follow this open standard structure:
 
-### 0. Screenshot Capture (Auto)
+### 0. Screenshot Capture (Auto — Conditional)
 
-Before generating the README, check if the project has a live demo URL. If found, use the **Playwright MCP** to capture a screenshot and save it to the project root.
+Before generating the README, determine whether a screenshot capture is needed. A screenshot should **only** be captured when **both** conditions are met:
+1. A live demo URL is available
+2. The README does **not** already contain a screenshot (i.e., no `![Screenshot]` or `![screenshot]` image reference exists)
 
-#### 0.1 Detect Live Demo URL
+If the README already has a screenshot image reference, **skip capture entirely** and preserve the existing screenshot reference.
+
+#### 0.1 Check for Existing Screenshot in README
+
+If a `README.md` exists, read it and check for any of these patterns:
+- `![Screenshot](screenshot.png)` or similar image markdown with "screenshot" in the alt text or path
+- `![screenshot]` image references in any format
+- `<img` tags referencing a screenshot file
+
+**If a screenshot reference is found:** Skip to Section 1 — do NOT re-capture. Preserve the existing screenshot section as-is.
+
+**If no screenshot reference is found:** Continue to Section 0.2 to detect a live URL and capture.
+
+#### 0.2 Detect Live Demo URL
 
 Check these sources in order:
 1. User-provided URL
@@ -72,31 +88,37 @@ Check these sources in order:
 4. GitHub Pages URL: `https://<owner>.github.io/<repo>/`
 5. Any URL found in an existing README.md
 
-#### 0.2 Capture Screenshot with Playwright MCP
+#### 0.3 Capture Screenshot with Playwright MCP
+
+Only execute this step if a live demo URL was found in Section 0.2 **and** no existing screenshot was detected in Section 0.1.
 
 Use the Playwright MCP tools in this sequence:
 
 ```
-1. browser_navigate → Navigate to the live demo URL
-2. browser_wait_for_load_state → Wait for page to fully load (networkidle)
-3. browser_screenshot → Take a screenshot and save to project root
+1. mcp__playwright__browser_navigate → Navigate to the live demo URL
+2. mcp__playwright__browser_wait_for → Wait for the page to fully load (wait a few seconds)
+3. mcp__playwright__browser_take_screenshot → Take a full-page screenshot and save to project root
+4. mcp__playwright__browser_close → Close the browser
 ```
 
 **Playwright MCP tool calls:**
 ```
-Tool: browser_navigate
+Tool: mcp__playwright__browser_navigate
 Args: { "url": "<LIVE_DEMO_URL>" }
 
-Tool: browser_screenshot
-Args: { "name": "screenshot", "savePath": "<PROJECT_ROOT>/screenshot.png" }
+Tool: mcp__playwright__browser_wait_for
+Args: { "time": 3 }
+
+Tool: mcp__playwright__browser_take_screenshot
+Args: { "type": "png", "filename": "screenshot.png", "fullPage": true }
+
+Tool: mcp__playwright__browser_close
+Args: {}
 ```
 
-After capturing, close the browser:
-```
-Tool: browser_close
-```
+**Important:** The screenshot file will be saved relative to the current working directory. After capture, verify the file exists before referencing it in the README.
 
-#### 0.3 Add Screenshot to README
+#### 0.4 Add Screenshot to README
 
 Insert the screenshot after the header section:
 ```markdown
@@ -107,7 +129,7 @@ Insert the screenshot after the header section:
 
 If the screenshot shows the main UI or hero section, use it. If the page requires authentication or shows a loading state, note this and skip the screenshot.
 
-#### 0.4 If No Live URL Found
+#### 0.5 If No Live URL Found
 
 Skip screenshot capture and add a commented-out placeholder:
 ```markdown
