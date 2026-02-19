@@ -6,7 +6,7 @@
 ![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
 ![Shell](https://img.shields.io/badge/Shell-Scripts-4EAA25?logo=gnubash&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
-![Skills](https://img.shields.io/badge/Skills-25-blue)
+![Skills](https://img.shields.io/badge/Skills-26-blue)
 ![Platforms](https://img.shields.io/badge/Platforms-40+-orange)
 
 **A collection of Claude Code skills to supercharge your development workflow**
@@ -41,7 +41,7 @@
 
 ## About
 
-Skills is a curated collection of 25 reusable automation workflows for Claude Code and 40+ compatible AI coding platforms. Each skill provides a specialized capability — from secure secrets management to one-command cloud deployments — all installable with a single `npx` command.
+Skills is a curated collection of 26 reusable automation workflows for Claude Code and 40+ compatible AI coding platforms. Each skill provides a specialized capability — from secure secrets management to one-command cloud deployments — all installable with a single `npx` command.
 
 ### Key Features
 
@@ -53,6 +53,7 @@ Skills is a curated collection of 25 reusable automation workflows for Claude Co
 - **Social Sharing** — Create engaging LinkedIn posts to showcase your projects
 - **Docker Hub** — Build and push Docker images to Docker Hub with auto-generated Dockerfiles
 - **Start App** — Auto-detect and start any app on localhost with auto-open browser
+- **App Testing** — Test app functionality on localhost or live sites using Playwright MCP
 - **AI Research** — Deep research and slide generation via NotebookLM
 - **AI Avatars** — Create talking head videos with OmniHuman, Fabric, PixVerse
 - **Frontend Design** — Build distinctive, production-grade web interfaces
@@ -73,6 +74,7 @@ Skills is a curated collection of 25 reusable automation workflows for Claude Co
 | [vercel-deployment](./vercel-deployment) | Deploy to Vercel with auto project naming & auth disable | `npx skills add https://github.com/alfredang/skills --skill vercel-deployment` |
 | [docker-hub](./docker-hub) | Build & push Docker images to Docker Hub with auto-generated Dockerfiles | `npx skills add https://github.com/alfredang/skills --skill docker-hub` |
 | [start-app](./start-app) | Auto-detect & start any app on localhost with auto-open browser | `npx skills add https://github.com/alfredang/skills --skill start-app` |
+| [app-testing](./app-testing) | Test app functionality on localhost or remote live sites using Playwright MCP | `npx skills add https://github.com/alfredang/skills --skill app-testing` |
 
 ### Security
 
@@ -160,7 +162,7 @@ Skills is a curated collection of 25 reusable automation workflows for Claude Co
 ┌───────┐┌──────┐┌──────┐┌─────┐┌─────┐┌─────┐┌──────┐
 │DevOps ││Secur-││Docs &││Front││Best ││ AI  ││Tools │
 │Deploy ││ity   ││Social││end  ││Prac ││Rsrch││Utils │
-│(7)    ││(1)   ││(3)   ││(3)  ││(7)  ││(2)  ││(4)   │
+│(8)    ││(1)   ││(3)   ││(3)  ││(7)  ││(2)  ││(4)   │
 └───┬───┘└──┬───┘└──┬───┘└──┬──┘└──┬──┘└──┬──┘└──┬───┘
     │       │       │       │      │      │      │
     ▼       ▼       ▼       ▼      ▼      ▼      ▼
@@ -203,6 +205,7 @@ skills/
 │   └── assets/
 ├── skill-creator/                 # Skill creation guide
 ├── start-app/                     # Auto-detect & start any app
+├── app-testing/                   # Test app via Playwright MCP
 ├── stripe-best-practices/         # Stripe integration best practices
 ├── supabase-postgres-best-practices/ # Postgres optimization
 ├── vercel-composition-patterns/   # React composition patterns
@@ -228,6 +231,7 @@ npx skills add https://github.com/alfredang/skills --skill github-pages
 npx skills add https://github.com/alfredang/skills --skill vercel-deployment
 npx skills add https://github.com/alfredang/skills --skill docker-hub
 npx skills add https://github.com/alfredang/skills --skill start-app
+npx skills add https://github.com/alfredang/skills --skill app-testing
 
 # ===== Security =====
 npx skills add https://github.com/alfredang/skills --skill secrets
@@ -265,7 +269,7 @@ npx skills add https://github.com/alfredang/skills --skill find-skills
 ### Install All Skills at Once
 
 ```bash
-for skill in github-push github-about github-page github-pages vercel-deployment docker-hub start-app secrets readme create-github-readme linkedin-project-post frontend-design web-design-guidelines building-native-ui vercel-react-best-practices vercel-react-native-skills vercel-composition-patterns stripe-best-practices supabase-postgres-best-practices remotion-best-practices python-performance-optimization notebooklm ai-avatar-video pdf mcp-builder skill-creator find-skills; do
+for skill in github-push github-about github-page github-pages vercel-deployment docker-hub start-app app-testing secrets readme create-github-readme linkedin-project-post frontend-design web-design-guidelines building-native-ui vercel-react-best-practices vercel-react-native-skills vercel-composition-patterns stripe-best-practices supabase-postgres-best-practices remotion-best-practices python-performance-optimization notebooklm ai-avatar-video pdf mcp-builder skill-creator find-skills; do
   npx skills add https://github.com/alfredang/skills --skill "$skill"
 done
 ```
@@ -283,7 +287,7 @@ npx skills add https://github.com/alfredang/skills --skill <skill-name>
 **Update all skills at once:**
 
 ```bash
-for skill in github-push github-about github-page github-pages vercel-deployment docker-hub start-app secrets readme create-github-readme linkedin-project-post frontend-design web-design-guidelines building-native-ui vercel-react-best-practices vercel-react-native-skills vercel-composition-patterns stripe-best-practices supabase-postgres-best-practices remotion-best-practices python-performance-optimization notebooklm ai-avatar-video pdf mcp-builder skill-creator find-skills; do
+for skill in github-push github-about github-page github-pages vercel-deployment docker-hub start-app app-testing secrets readme create-github-readme linkedin-project-post frontend-design web-design-guidelines building-native-ui vercel-react-best-practices vercel-react-native-skills vercel-composition-patterns stripe-best-practices supabase-postgres-best-practices remotion-best-practices python-performance-optimization notebooklm ai-avatar-video pdf mcp-builder skill-creator find-skills; do
   rm -rf ~/.agents/skills/$skill ~/.claude/skills/$skill
   npx skills add https://github.com/alfredang/skills --skill "$skill"
 done
@@ -313,6 +317,7 @@ Trigger skills with slash commands:
 /vercel-deployment         # Deploy to Vercel
 /docker-hub                # Build & push to Docker Hub
 /start-app                 # Auto-detect & start app on localhost
+/test-app                  # Test app functionality via Playwright MCP
 /linkedin-post             # Create a LinkedIn post
 /notebooklm                # Deep research & slides
 ```
@@ -326,6 +331,8 @@ Or use natural language:
 - "deploy to vercel"
 - "push docker image to docker hub"
 - "start the app"
+- "test my app on localhost"
+- "test my live site"
 - "write a linkedin post about my app"
 - "create a podcast about this topic"
 - "review my UI for accessibility"
