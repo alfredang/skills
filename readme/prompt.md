@@ -19,7 +19,19 @@ You are a README documentation expert. Generate a comprehensive, professional RE
    - Testing frameworks
    - CI/CD tools
 
-3. **Generate the README** with these sections:
+3. **Capture a screenshot** (if a live site exists):
+   - Detect a live demo URL from: user-provided URL, `package.json` homepage, Vercel project URL, GitHub Pages URL, or existing README
+   - If a live URL is found and the README doesn't already have a screenshot, capture one using Playwright MCP:
+     ```
+     1. mcp__playwright__browser_navigate → Navigate to the live demo URL
+     2. mcp__playwright__browser_wait_for → Wait 3 seconds for page to load
+     3. mcp__playwright__browser_take_screenshot → Save as screenshot.png (fullPage: true)
+     4. mcp__playwright__browser_close → Close the browser
+     ```
+   - If the README already contains a `![Screenshot]` reference, skip capture and preserve the existing one
+   - If no live URL is found, add a commented-out placeholder
+
+4. **Generate the README** with these sections:
 
 ---
 
