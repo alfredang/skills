@@ -1,11 +1,11 @@
 ---
 name: app-testing
-description: Test app functionality on localhost or remote live sites using Playwright MCP. Navigates pages, clicks buttons, fills forms, checks content, and validates UI behavior. Use when running "test app", "test my site", "test the app", or any functional testing task.
+description: Test app functionality and mobile responsiveness on localhost or remote live sites using Playwright MCP. Navigates pages, clicks buttons, fills forms, checks content, validates UI behavior, and tests mobile-friendliness across device viewports. Use when running "test app", "test my site", "test the app", "test mobile", or any functional/responsive testing task.
 ---
 
 # App Testing
 
-Test application functionality on localhost or remote live sites using Playwright MCP browser automation. Navigates pages, interacts with elements, validates content, and reports results.
+Test application functionality and mobile responsiveness on localhost or remote live sites using Playwright MCP browser automation. Navigates pages, interacts with elements, validates content, tests mobile-friendliness across device viewports, and reports results.
 
 ## Command
 `/test-app` or `test-app`
@@ -14,10 +14,10 @@ Test application functionality on localhost or remote live sites using Playwrigh
 Testing & QA
 
 ## Keywords
-test app, test site, test my app, test my site, test localhost, test live site, functional test, ui test, smoke test, e2e test, end to end test, test buttons, test forms, test navigation, test links, playwright test, browser test, test functionality, qa test, test page, test deployed site, test production, verify app, check app works, test-app
+test app, test site, test my app, test my site, test localhost, test live site, functional test, ui test, smoke test, e2e test, end to end test, test buttons, test forms, test navigation, test links, playwright test, browser test, test functionality, qa test, test page, test deployed site, test production, verify app, check app works, test-app, test mobile, mobile friendly, responsive test, mobile view, mobile responsiveness, test on phone, mobile testing, responsive design test, viewport test
 
 ## Description
-Uses Playwright MCP to launch a browser, navigate to your app (localhost or remote URL), and systematically test functionality. Takes snapshots to understand page structure, interacts with elements (clicks, types, selects), validates expected behavior, and generates a test report with pass/fail results and screenshots of failures.
+Uses Playwright MCP to launch a browser, navigate to your app (localhost or remote URL), and systematically test functionality and mobile responsiveness. Takes snapshots to understand page structure, interacts with elements (clicks, types, selects), validates expected behavior, resizes the browser to mobile/tablet viewports to verify responsive design, and generates a test report with pass/fail results and screenshots of failures.
 
 ## Execution
 This skill runs using **Claude Code with subscription plan**. Requires the Playwright MCP server to be configured and available. All browser interactions use Playwright MCP tools (browser_navigate, browser_snapshot, browser_click, browser_type, etc.).
@@ -34,6 +34,7 @@ The workflow includes:
 | **Plan** | Identify testable elements and user flows |
 | **Execute** | Run through test scenarios interacting with the app |
 | **Validate** | Check expected outcomes after each interaction |
+| **Mobile** | Test responsiveness across mobile and tablet viewports |
 | **Report** | Generate test summary with pass/fail results |
 
 ## Instructions
@@ -170,7 +171,142 @@ For single-page apps (SPAs):
 - Verify URL changes in the browser
 - Test deep linking by navigating directly to routes
 
-### Phase 5: Generate Test Report
+### Phase 5: Mobile Responsiveness Testing
+
+After desktop testing, resize the browser to test mobile-friendliness across common device viewports. This phase ensures the app works well on phones and tablets.
+
+#### 5.1 Define Test Viewports
+
+Test at these standard device sizes (width x height):
+
+| Device | Width | Height | Category |
+|--------|-------|--------|----------|
+| iPhone SE | 375 | 667 | Small phone |
+| iPhone 14 / 15 | 390 | 844 | Standard phone |
+| iPhone 14 Pro Max | 430 | 932 | Large phone |
+| iPad Mini | 768 | 1024 | Small tablet |
+| iPad Air / Pro | 820 | 1180 | Standard tablet |
+
+**At minimum, always test these 3 viewports:**
+1. **Small phone** (375×667) — catches tight layout issues
+2. **Standard phone** (390×844) — most common mobile device
+3. **Tablet** (768×1024) — catches tablet breakpoint issues
+
+#### 5.2 Mobile Test Execution
+
+For **each viewport**, perform the following:
+
+1. **Resize the browser:**
+   Use `browser_resize` to set the viewport dimensions:
+   ```
+   browser_resize(width: 375, height: 667)  // iPhone SE
+   ```
+
+2. **Navigate to the main page:**
+   Use `browser_navigate` to reload the app at the target URL (ensures fresh responsive layout).
+
+3. **Take a screenshot:**
+   Use `browser_take_screenshot` to capture the mobile layout for visual reference.
+
+4. **Take an accessibility snapshot:**
+   Use `browser_snapshot` to get the page structure at this viewport size.
+
+5. **Check for mobile layout issues:**
+   - **Horizontal overflow** — look for horizontal scrollbars or content extending beyond the viewport. Use `browser_evaluate` to check:
+     ```javascript
+     () => document.documentElement.scrollWidth > document.documentElement.clientWidth
+     ```
+   - **Viewport meta tag** — verify the page has a proper viewport meta tag. Use `browser_evaluate`:
+     ```javascript
+     () => {
+       const meta = document.querySelector('meta[name="viewport"]');
+       return meta ? meta.getAttribute('content') : 'MISSING';
+     }
+     ```
+   - **Touch target sizes** — verify buttons and links are at least 44x44px for tap accessibility. Use `browser_evaluate`:
+     ```javascript
+     () => {
+       const issues = [];
+       document.querySelectorAll('a, button, [role="button"], input, select, textarea').forEach(el => {
+         const rect = el.getBoundingClientRect();
+         if (rect.width > 0 && rect.height > 0 && (rect.width < 44 || rect.height < 44)) {
+           issues.push({ tag: el.tagName, text: el.textContent?.slice(0, 30), width: Math.round(rect.width), height: Math.round(rect.height) });
+         }
+       });
+       return issues.length > 0 ? issues : 'ALL PASS';
+     }
+     ```
+   - **Text readability** — check that body font size is at least 16px (prevents auto-zoom on iOS). Use `browser_evaluate`:
+     ```javascript
+     () => {
+       const body = document.body;
+       const fontSize = parseFloat(window.getComputedStyle(body).fontSize);
+       const inputs = document.querySelectorAll('input, textarea, select');
+       const smallInputs = [];
+       inputs.forEach(el => {
+         const size = parseFloat(window.getComputedStyle(el).fontSize);
+         if (size < 16) smallInputs.push({ tag: el.tagName, type: el.type, fontSize: size });
+       });
+       return { bodyFontSize: fontSize, inputsBelow16px: smallInputs.length > 0 ? smallInputs : 'NONE' };
+     }
+     ```
+
+6. **Test mobile navigation:**
+   - **Hamburger menu** — look for a hamburger/menu icon button in the snapshot. If found:
+     - Click it with `browser_click`
+     - Snapshot to verify the mobile nav menu opens
+     - Verify all navigation links are visible and clickable
+     - Click each nav link to verify it works
+     - Verify the menu can be closed (click hamburger again, click outside, or press Escape)
+   - **Sticky/fixed headers** — scroll down and verify header stays visible if sticky. Use `browser_evaluate`:
+     ```javascript
+     () => {
+       window.scrollTo(0, 500);
+       const header = document.querySelector('header, nav, [role="banner"]');
+       if (!header) return 'NO HEADER FOUND';
+       const rect = header.getBoundingClientRect();
+       return { isVisible: rect.top >= 0 && rect.bottom <= window.innerHeight, top: rect.top };
+     }
+     ```
+   - **Bottom navigation** — if a mobile bottom nav exists, verify it stays fixed at bottom
+
+7. **Test mobile-specific interactions:**
+   - **Scroll behavior** — use `browser_evaluate` to scroll and verify smooth scrolling works:
+     ```javascript
+     () => { window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); return 'scrolled to bottom'; }
+     ```
+   - **Forms on mobile** — verify form fields are usable (not hidden behind keyboard, proper input types)
+   - **Modals/overlays** — if tested in desktop phase, re-test that modals fit within mobile viewport
+   - **Images** — verify images scale down and don't overflow the viewport
+   - **Tables** — check if tables have horizontal scroll wrappers or responsive alternatives
+
+8. **Test content stacking:**
+   - Verify multi-column layouts properly stack to single-column on mobile
+   - Check that sidebars collapse or move below main content
+   - Verify cards/grid items reflow properly
+
+#### 5.3 Responsive Breakpoint Transitions
+
+After testing individual viewports, test the transition between breakpoints:
+
+1. Start at desktop (1280×800) with `browser_resize`
+2. Step down through breakpoints:
+   - 1024×768 (small desktop / landscape tablet)
+   - 768×1024 (tablet portrait)
+   - 390×844 (phone)
+3. At each step, take a snapshot and screenshot to verify:
+   - Layout transitions smoothly (no broken intermediate states)
+   - Navigation switches between desktop and mobile modes at an appropriate breakpoint
+   - Content remains accessible at every width
+
+#### 5.4 Restore Desktop Viewport
+
+After mobile testing, restore the browser to desktop size:
+```
+browser_resize(width: 1280, height: 800)
+```
+
+### Phase 6: Generate Test Report
 
 After all tests complete, generate a structured report:
 
@@ -209,13 +345,32 @@ After all tests complete, generate a structured report:
 - GET /api/users → 404 Not Found
 - POST /api/login → 500 Internal Server Error
 
+### Mobile Responsiveness
+
+| Viewport | Status | Issues |
+|----------|--------|--------|
+| iPhone SE (375×667) | PASS/FAIL | Details |
+| iPhone 14 (390×844) | PASS/FAIL | Details |
+| iPad Mini (768×1024) | PASS/FAIL | Details |
+
+#### Mobile Issues Found
+- **Horizontal overflow** on iPhone SE — content extends 40px beyond viewport
+- **Touch targets too small** — 3 buttons under 44px height on mobile nav
+- **Missing viewport meta tag** — page does not have `<meta name="viewport">`
+- **Input font size < 16px** — email input has 14px font (causes iOS auto-zoom)
+- **Hamburger menu not functional** — menu icon present but click has no effect
+
 ### Recommendations
 - Fix the /api/users endpoint returning 404
 - Add proper error handling for login failures
 - Add alt text to images on the homepage
+- Add `<meta name="viewport" content="width=device-width, initial-scale=1">` if missing
+- Increase touch target sizes to minimum 44×44px
+- Set input font sizes to at least 16px to prevent iOS auto-zoom
+- Add responsive breakpoints for mobile layouts
 ```
 
-### Phase 6: Cleanup
+### Phase 7: Cleanup
 
 After testing:
 1. Close the browser with `browser_close`
@@ -238,6 +393,8 @@ Users can pass specific test targets:
 - `/test-app --forms` — focus on form testing
 - `/test-app --nav` — focus on navigation testing
 - `/test-app --a11y` — focus on accessibility checks
+- `/test-app --mobile` — focus on mobile responsiveness testing only
+- `/test-app --responsive` — run full responsive test across all viewports
 
 ### Testing Remote vs Local
 
@@ -264,7 +421,11 @@ Users can pass specific test targets:
 - Monitor network requests for failed API calls
 - Test multi-page flows and SPA client-side routing
 - Handle browser dialogs (alerts, confirms, prompts)
-- Generate structured test reports with pass/fail results
+- **Test mobile responsiveness** by resizing to phone/tablet viewports (iPhone SE, iPhone 14, iPad Mini, etc.)
+- **Detect mobile layout issues** — horizontal overflow, small touch targets, missing viewport meta, font size issues
+- **Test mobile navigation** — hamburger menus, sticky headers, bottom nav bars
+- **Verify responsive breakpoint transitions** — layout changes smoothly from desktop to mobile
+- Generate structured test reports with pass/fail results including mobile responsiveness section
 
 ## Notes
 
