@@ -6,13 +6,13 @@ description: Generate or update a professional GitHub README.md file following o
 # Create GitHub README
 
 ## Command
-`/create_github_readme` or `create_github_readme`
+`/readme`, `/create_github_readme`, or `create_github_readme`
 
 ## Navigate
 Documentation
 
 ## Keywords
-readme, github readme, create readme, generate readme, project readme, documentation, readme.md, update readme, write readme, project documentation
+readme, github readme, create readme, generate readme, project readme, documentation, readme.md, update readme, write readme, project documentation, create github readme, create_github_readme
 
 ## Description
 Generate or update a professional GitHub README.md file following open standards and best practices. If a README already exists and the user requests an update, regenerates it using the latest template including a fresh screenshot. Auto-pushes to GitHub after generation.

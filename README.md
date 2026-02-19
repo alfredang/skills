@@ -6,7 +6,7 @@
 ![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
 ![Shell](https://img.shields.io/badge/Shell-Scripts-4EAA25?logo=gnubash&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
-![Skills](https://img.shields.io/badge/Skills-26-blue)
+![Skills](https://img.shields.io/badge/Skills-25-blue)
 ![Platforms](https://img.shields.io/badge/Platforms-40+-orange)
 
 **A collection of Claude Code skills to supercharge your development workflow**
@@ -41,7 +41,7 @@
 
 ## About
 
-Skills is a curated collection of 26 reusable automation workflows for Claude Code and 40+ compatible AI coding platforms. Each skill provides a specialized capability — from secure secrets management to one-command cloud deployments — all installable with a single `npx` command.
+Skills is a curated collection of 25 reusable automation workflows for Claude Code and 40+ compatible AI coding platforms. Each skill provides a specialized capability — from secure secrets management to one-command cloud deployments — all installable with a single `npx` command.
 
 ### Key Features
 
@@ -86,8 +86,7 @@ Skills is a curated collection of 26 reusable automation workflows for Claude Co
 
 | Skill | Description | Install |
 |-------|-------------|---------|
-| [readme](./readme) | Generate or update professional README.md with Playwright screenshots & badges | `npx skills add https://github.com/alfredang/skills --skill readme` |
-| [create-github-readme](./create-github-readme) | Generate professional GitHub README with tech badges, architecture diagrams & screenshots | `npx skills add https://github.com/alfredang/skills --skill create-github-readme` |
+| [readme](./readme) | Generate or update professional README.md with Playwright screenshots, badges & architecture diagrams | `npx skills add https://github.com/alfredang/skills --skill readme` |
 | [linkedin-project-post](./linkedin-project-post) | Create LinkedIn posts with emojis, hashtags, features, tech stack & CTA | `npx skills add https://github.com/alfredang/skills --skill linkedin-project-post` |
 
 ### Frontend & Design
@@ -162,7 +161,7 @@ Skills is a curated collection of 26 reusable automation workflows for Claude Co
 ┌───────┐┌──────┐┌──────┐┌─────┐┌─────┐┌─────┐┌──────┐
 │DevOps ││Secur-││Docs &││Front││Best ││ AI  ││Tools │
 │Deploy ││ity   ││Social││end  ││Prac ││Rsrch││Utils │
-│(8)    ││(1)   ││(3)   ││(3)  ││(7)  ││(2)  ││(4)   │
+│(8)    ││(1)   ││(2)   ││(3)  ││(7)  ││(2)  ││(4)   │
 └───┬───┘└──┬───┘└──┬───┘└──┬──┘└──┬──┘└──┬──┘└──┬───┘
     │       │       │       │      │      │      │
     ▼       ▼       ▼       ▼      ▼      ▼      ▼
@@ -181,7 +180,6 @@ Skills is a curated collection of 26 reusable automation workflows for Claude Co
 skills/
 ├── ai-avatar-video/               # AI avatar & talking head videos
 ├── building-native-ui/            # Expo Router native UI guide
-├── create-github-readme/          # GitHub README generator
 ├── docker-hub/                    # Docker Hub build & push
 ├── find-skills/                   # Skill discovery & install
 ├── frontend-design/               # Production-grade frontend design
@@ -238,7 +236,6 @@ npx skills add https://github.com/alfredang/skills --skill secrets
 
 # ===== Documentation & Social =====
 npx skills add https://github.com/alfredang/skills --skill readme
-npx skills add https://github.com/alfredang/skills --skill create-github-readme
 npx skills add https://github.com/alfredang/skills --skill linkedin-project-post
 
 # ===== Frontend & Design =====
@@ -269,7 +266,7 @@ npx skills add https://github.com/alfredang/skills --skill find-skills
 ### Install All Skills at Once
 
 ```bash
-for skill in github-push github-about github-page github-pages vercel-deployment docker-hub start-app app-testing secrets readme create-github-readme linkedin-project-post frontend-design web-design-guidelines building-native-ui vercel-react-best-practices vercel-react-native-skills vercel-composition-patterns stripe-best-practices supabase-postgres-best-practices remotion-best-practices python-performance-optimization notebooklm ai-avatar-video pdf mcp-builder skill-creator find-skills; do
+for skill in github-push github-about github-page github-pages vercel-deployment docker-hub start-app app-testing secrets readme linkedin-project-post frontend-design web-design-guidelines building-native-ui vercel-react-best-practices vercel-react-native-skills vercel-composition-patterns stripe-best-practices supabase-postgres-best-practices remotion-best-practices python-performance-optimization notebooklm ai-avatar-video pdf mcp-builder skill-creator find-skills; do
   npx skills add https://github.com/alfredang/skills --skill "$skill"
 done
 ```
@@ -287,7 +284,7 @@ npx skills add https://github.com/alfredang/skills --skill <skill-name>
 **Update all skills at once:**
 
 ```bash
-for skill in github-push github-about github-page github-pages vercel-deployment docker-hub start-app app-testing secrets readme create-github-readme linkedin-project-post frontend-design web-design-guidelines building-native-ui vercel-react-best-practices vercel-react-native-skills vercel-composition-patterns stripe-best-practices supabase-postgres-best-practices remotion-best-practices python-performance-optimization notebooklm ai-avatar-video pdf mcp-builder skill-creator find-skills; do
+for skill in github-push github-about github-page github-pages vercel-deployment docker-hub start-app app-testing secrets readme linkedin-project-post frontend-design web-design-guidelines building-native-ui vercel-react-best-practices vercel-react-native-skills vercel-composition-patterns stripe-best-practices supabase-postgres-best-practices remotion-best-practices python-performance-optimization notebooklm ai-avatar-video pdf mcp-builder skill-creator find-skills; do
   rm -rf ~/.agents/skills/$skill ~/.claude/skills/$skill
   npx skills add https://github.com/alfredang/skills --skill "$skill"
 done
@@ -312,7 +309,7 @@ Trigger skills with slash commands:
 ```
 /github-push               # Secure push with secret scan + repo setup
 /github-about              # Update repo description, URL & topics
-/create_github_readme      # Generate or update README
+/readme                    # Generate or update README with screenshots
 /github-page               # Deploy to GitHub Pages
 /vercel-deployment         # Deploy to Vercel
 /docker-hub                # Build & push to Docker Hub
