@@ -6,7 +6,7 @@
 ![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
 ![Shell](https://img.shields.io/badge/Shell-Scripts-4EAA25?logo=gnubash&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
-![Skills](https://img.shields.io/badge/Skills-25-blue)
+![Skills](https://img.shields.io/badge/Skills-26-blue)
 ![Platforms](https://img.shields.io/badge/Platforms-40+-orange)
 
 **A collection of Claude Code skills to supercharge your development workflow**
@@ -41,7 +41,7 @@
 
 ## About
 
-Skills is a curated collection of 25 reusable automation workflows for Claude Code and 40+ compatible AI coding platforms. Each skill provides a specialized capability — from secure secrets management to one-command cloud deployments — all installable with a single `npx` command.
+Skills is a curated collection of 26 reusable automation workflows for Claude Code and 40+ compatible AI coding platforms. Each skill provides a specialized capability — from secure secrets management to one-command cloud deployments — all installable with a single `npx` command.
 
 ### Key Features
 
@@ -75,6 +75,7 @@ Skills is a curated collection of 25 reusable automation workflows for Claude Co
 | [docker-hub](./docker-hub) | Build & push Docker images to Docker Hub with auto-generated Dockerfiles | `npx skills add https://github.com/alfredang/skills --skill docker-hub` |
 | [start-app](./start-app) | Auto-detect & start any app on localhost with auto-open browser | `npx skills add https://github.com/alfredang/skills --skill start-app` |
 | [app-testing](./app-testing) | Test app functionality on localhost or remote live sites using Playwright MCP | `npx skills add https://github.com/alfredang/skills --skill app-testing` |
+| [app-store-submission](./app-store-submission) | API-first iOS App Store submission via the App Store Connect API + Xcode CLI, with a field-tested App Review rejection checklist | `npx degit alfredang/skills/app-store-submission .claude/skills/app-store-submission` |
 
 ### Security
 
@@ -179,6 +180,8 @@ Skills is a curated collection of 25 reusable automation workflows for Claude Co
 ```
 skills/
 ├── ai-avatar-video/               # AI avatar & talking head videos
+├── app-store-submission/          # API-first iOS App Store submission
+│   └── scripts/                   # asc_submit.py, asc_jwt.swift, asset generators
 ├── building-native-ui/            # Expo Router native UI guide
 ├── docker-hub/                    # Docker Hub build & push
 ├── find-skills/                   # Skill discovery & install
@@ -231,6 +234,9 @@ npx skills add https://github.com/alfredang/skills --skill docker-hub
 npx skills add https://github.com/alfredang/skills --skill start-app
 npx skills add https://github.com/alfredang/skills --skill app-testing
 
+# app-store-submission ships supporting scripts — copy the whole folder with degit:
+npx degit alfredang/skills/app-store-submission .claude/skills/app-store-submission
+
 # ===== Security =====
 npx skills add https://github.com/alfredang/skills --skill secrets
 
@@ -261,7 +267,16 @@ npx skills add https://github.com/alfredang/skills --skill pdf
 npx skills add https://github.com/alfredang/skills --skill mcp-builder
 npx skills add https://github.com/alfredang/skills --skill skill-creator
 npx skills add https://github.com/alfredang/skills --skill find-skills
+
+# ===== Mobile / App Store =====
+# app-store-submission bundles helper scripts; install it by copying the folder with degit:
+npx degit alfredang/skills/app-store-submission .claude/skills/app-store-submission
 ```
+
+> **degit** copies a single subfolder of this repo straight into your project (no git history,
+> no extra tooling). `npx degit alfredang/skills/app-store-submission .claude/skills/app-store-submission`
+> drops the full skill — `SKILL.md`, `.env.example`, and the `scripts/` — into your project's
+> `.claude/skills/` so Claude Code picks it up automatically.
 
 ### Install All Skills at Once
 
