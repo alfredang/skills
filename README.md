@@ -6,12 +6,13 @@
 ![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
 ![Shell](https://img.shields.io/badge/Shell-Scripts-4EAA25?logo=gnubash&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
-![Skills](https://img.shields.io/badge/Skills-29-blue)
+![Skills](https://img.shields.io/badge/Skills-7-blue)
+![Commands](https://img.shields.io/badge/Commands-3-blueviolet)
 ![Platforms](https://img.shields.io/badge/Platforms-40+-orange)
 
-**A collection of Claude Code skills to supercharge your development workflow**
+**Custom Claude Code skills & commands by Tertiary Infotech Academy Pte. Ltd. to supercharge your development workflow**
 
-[Install Skills](#quick-install) · [Browse Skills](#available-skills) · [Report Bug](https://github.com/alfredang/skills/issues) · [Request Feature](https://github.com/alfredang/skills/issues)
+[Install](#quick-install) · [Browse Skills](#available-skills) · [Browse Commands](#available-commands) · [Report Bug](https://github.com/alfredang/skills/issues) · [Request Feature](https://github.com/alfredang/skills/issues)
 
 </div>
 
@@ -25,7 +26,9 @@
 ## Table of Contents
 
 - [About](#about)
+- [Skills vs Commands](#skills-vs-commands)
 - [Available Skills](#available-skills)
+- [Available Commands](#available-commands)
 - [Tech Stack](#tech-stack)
 - [Architecture](#architecture)
 - [Project Structure](#project-structure)
@@ -41,23 +44,27 @@
 
 ## About
 
-Skills is a curated collection of 29 reusable automation workflows for Claude Code and 40+ compatible AI coding platforms. Each skill provides a specialized capability — from secure secrets management to one-command cloud deployments — all installable with a single `npx` command.
+A curated collection of **7 skills** and **3 slash commands** for Claude Code and 40+ compatible AI coding platforms, authored and maintained by **Tertiary Infotech Academy Pte. Ltd.** Each one provides a specialized capability — from secure git pushes to one-command Docker pushes and iOS App Store submission.
 
 ### Key Features
 
-- **Universal Install** — One command installs to all supported AI platforms automatically
-- **Secret Detection** — Scan for 20+ types of exposed credentials before pushing
-- **Secrets Management** — Enforce .env-based secrets across all platforms (Node, Python, Go, Rust, Java, Swift, Android, Flutter, etc.)
-- **Auto Documentation** — Generate professional READMEs with screenshots, badges, and architecture diagrams
-- **One-Click Deploy** — Deploy to Vercel or GitHub Pages with zero manual configuration
-- **Social Sharing** — Create engaging LinkedIn posts to showcase your projects
+- **Secure Git Push** — Scan for 20+ credential types, auto-README, repo About, Discussions, optional PR & GitHub Pages deploy
+- **Auto Documentation** — Generate professional READMEs with Playwright screenshots, badges, and architecture diagrams
+- **App Store Submission** — API-first iOS App Store submission with a field-tested App Review checklist
 - **Docker Hub** — Build and push Docker images to Docker Hub with auto-generated Dockerfiles
-- **Start App** — Auto-detect and start any app on localhost with auto-open browser
-- **App Testing** — Test app functionality on localhost or live sites using Playwright MCP
+- **Start App** — Auto-detect and start any app on localhost
+- **App Testing** — Test functionality and mobile responsiveness on localhost or live sites via Playwright MCP
+- **iOS Design** — Master Apple Human Interface Guidelines and SwiftUI patterns
 - **AI Research** — Deep research and slide generation via NotebookLM
 - **AI Avatars** — Create talking head videos with OmniHuman, Fabric, PixVerse
-- **Frontend Design** — Build distinctive, production-grade web interfaces
-- **Best Practices** — React, React Native, Stripe, Supabase Postgres, Remotion guidelines
+- **Social Sharing** — Create engaging LinkedIn posts to showcase your projects
+
+---
+
+## Skills vs Commands
+
+- **Skills** install into `~/.agents/skills/` and `~/.claude/skills/` and are **auto-invoked** by the model when your request matches their description.
+- **Commands** live in `commands/` and are **explicitly invoked** with a slash command (e.g. `/github-push`). Use these when you want deterministic, on-demand execution rather than auto-triggering.
 
 ---
 
@@ -67,49 +74,21 @@ Skills is a curated collection of 29 reusable automation workflows for Claude Co
 
 | Skill | Description | Install |
 |-------|-------------|---------|
-| [github-push](./github-push) | Secure git push with secret detection, auto-README, repo setup & discussions | `npx skills add https://github.com/alfredang/skills --skill github-push` |
-| [github-about](./github-about) | Auto-update repo description, live site URL & topics from codebase analysis | `npx skills add https://github.com/alfredang/skills --skill github-about` |
-| [github-page](./github-page) | Deploy to GitHub Pages with auto-generated Actions workflow | `npx skills add https://github.com/alfredang/skills --skill github-page` |
-| [github-pages](./github-pages) | Deploy to GitHub Pages with auto-generated Actions workflow (alternative) | `npx skills add https://github.com/alfredang/skills --skill github-pages` |
-| [vercel-deployment](./vercel-deployment) | Deploy to Vercel with auto project naming & auth disable | `npx skills add https://github.com/alfredang/skills --skill vercel-deployment` |
 | [docker-hub](./docker-hub) | Build & push Docker images to Docker Hub with auto-generated Dockerfiles | `npx skills add https://github.com/alfredang/skills --skill docker-hub` |
-| [start-app](./start-app) | Auto-detect & start any app on localhost with auto-open browser | `npx skills add https://github.com/alfredang/skills --skill start-app` |
-| [app-testing](./app-testing) | Test app functionality on localhost or remote live sites using Playwright MCP | `npx skills add https://github.com/alfredang/skills --skill app-testing` |
+| [app-testing](./app-testing) | Test app functionality & mobile responsiveness on localhost or live sites using Playwright MCP | `npx skills add https://github.com/alfredang/skills --skill app-testing` |
 | [app-store-submission](./app-store-submission) | API-first iOS App Store submission via the App Store Connect API + Xcode CLI, with a field-tested App Review rejection + resubmission checklist | `npx degit alfredang/skills/app-store-submission .claude/skills/app-store-submission` |
 
-### Security
-
-| Skill | Description | Install |
-|-------|-------------|---------|
-| [secrets](./secrets) | Enforce secure secrets management — never hardcode API keys, OAuth2 secrets, tokens, or credentials across all platforms | `npx skills add https://github.com/alfredang/skills --skill secrets` |
-
-### Documentation & Social
+### Documentation
 
 | Skill | Description | Install |
 |-------|-------------|---------|
 | [readme](./readme) | Generate or update professional README.md with Playwright screenshots, badges & architecture diagrams | `npx skills add https://github.com/alfredang/skills --skill readme` |
-| [linkedin-project-post](./linkedin-project-post) | Create LinkedIn posts with emojis, hashtags, features, tech stack & CTA | `npx skills add https://github.com/alfredang/skills --skill linkedin-project-post` |
 
-### Frontend & Design
+### Mobile & Design
 
 | Skill | Description | Install |
 |-------|-------------|---------|
-| [frontend-design](./frontend-design) | Create distinctive, production-grade frontend interfaces with high design quality | `npx skills add https://github.com/alfredang/skills --skill frontend-design` |
-| [web-design-guidelines](./web-design-guidelines) | Review UI code for Web Interface Guidelines compliance | `npx skills add https://github.com/alfredang/skills --skill web-design-guidelines` |
-| [building-native-ui](./building-native-ui) | Complete guide for building beautiful apps with Expo Router | `npx skills add https://github.com/alfredang/skills --skill building-native-ui` |
 | [mobile-ios-design](./mobile-ios-design) | Master iOS Human Interface Guidelines and SwiftUI patterns for polished native iOS apps | `npx degit alfredang/skills/mobile-ios-design .claude/skills/mobile-ios-design` |
-
-### Best Practices & Frameworks
-
-| Skill | Description | Install |
-|-------|-------------|---------|
-| [vercel-react-best-practices](./vercel-react-best-practices) | React and Next.js performance optimization guidelines from Vercel Engineering | `npx skills add https://github.com/alfredang/skills --skill vercel-react-best-practices` |
-| [vercel-react-native-skills](./vercel-react-native-skills) | React Native and Expo best practices for performant mobile apps | `npx skills add https://github.com/alfredang/skills --skill vercel-react-native-skills` |
-| [vercel-composition-patterns](./vercel-composition-patterns) | React composition patterns that scale — compound components, render props, context | `npx skills add https://github.com/alfredang/skills --skill vercel-composition-patterns` |
-| [stripe-best-practices](./stripe-best-practices) | Best practices for building Stripe integrations | `npx skills add https://github.com/alfredang/skills --skill stripe-best-practices` |
-| [supabase-postgres-best-practices](./supabase-postgres-best-practices) | Postgres performance optimization and best practices from Supabase | `npx skills add https://github.com/alfredang/skills --skill supabase-postgres-best-practices` |
-| [remotion-best-practices](./remotion-best-practices) | Best practices for Remotion — video creation in React | `npx skills add https://github.com/alfredang/skills --skill remotion-best-practices` |
-| [python-performance-optimization](./python-performance-optimization) | Profile and optimize Python code using cProfile, memory profilers & best practices | `npx skills add https://github.com/alfredang/skills --skill python-performance-optimization` |
 
 ### AI & Research
 
@@ -118,14 +97,17 @@ Skills is a curated collection of 29 reusable automation workflows for Claude Co
 | [notebooklm](./notebooklm) | Deep research & slide presentations via NotebookLM MCP | `npx skills add https://github.com/alfredang/skills --skill notebooklm` |
 | [ai-avatar-video](./ai-avatar-video) | Create AI avatar and talking head videos with OmniHuman, Fabric, PixVerse | `npx skills add https://github.com/alfredang/skills --skill ai-avatar-video` |
 
-### Tools & Utilities
+---
 
-| Skill | Description | Install |
-|-------|-------------|---------|
-| [pdf](./pdf) | Comprehensive PDF toolkit — extract text, create, merge, split, fill forms | `npx skills add https://github.com/alfredang/skills --skill pdf` |
-| [mcp-builder](./mcp-builder) | Guide for creating MCP servers to integrate external APIs and services | `npx skills add https://github.com/alfredang/skills --skill mcp-builder` |
-| [skill-creator](./skill-creator) | Guide for creating effective skills that extend Claude's capabilities | `npx skills add https://github.com/alfredang/skills --skill skill-creator` |
-| [find-skills](./find-skills) | Discover and install agent skills from the community | `npx skills add https://github.com/alfredang/skills --skill find-skills` |
+## Available Commands
+
+Slash commands invoked explicitly. Install by copying the file into your project's `.claude/commands/` with degit:
+
+| Command | Description | Install |
+|---------|-------------|---------|
+| [/github-push](./commands/github-push.md) | Secure git push — secret detection, README (via readme skill), repo About (description/URL/topics), Discussions, optional PR & GitHub Pages deploy | `npx degit alfredang/skills/commands/github-push.md .claude/commands/github-push.md` |
+| [/start-app](./commands/start-app.md) | Auto-detect project type and start any app on localhost on a free port, then open the browser | `npx degit alfredang/skills/commands/start-app.md .claude/commands/start-app.md` |
+| [/linkedin-project-post](./commands/linkedin-project-post.md) | Generate an exciting LinkedIn post with screenshot, links, features, tech stack, CTA & hashtags (auto-publish via LinkedIn MCP) | `npx degit alfredang/skills/commands/linkedin-project-post.md .claude/commands/linkedin-project-post.md` |
 
 ---
 
@@ -136,8 +118,9 @@ Skills is a curated collection of 29 reusable automation workflows for Claude Co
 | Runtime | Node.js 18+, Shell/Bash, Python 3 |
 | AI Platform | Claude Code (Anthropic) |
 | Automation | Playwright MCP, GitHub CLI (`gh`) |
-| Deployment | Vercel CLI, GitHub Actions, GitHub Pages, Docker Hub |
-| Package Manager | npx (skills CLI) |
+| Deployment | GitHub Actions, GitHub Pages, Docker Hub |
+| Mobile | App Store Connect API, Xcode CLI, SwiftUI |
+| Package Manager | npx (skills CLI / degit) |
 | Research | NotebookLM MCP |
 | Video | OmniHuman, Fabric, PixVerse (inference.sh) |
 
@@ -147,31 +130,22 @@ Skills is a curated collection of 29 reusable automation workflows for Claude Co
 
 ```
 ┌──────────────────────────────────────────────────────┐
-│                  npx skills add                       │
-│              (Universal Installer)                    │
+│         npx skills add  /  npx degit (commands)       │
 └──────────────────┬───────────────────────────────────┘
                    │
-                   ▼
-┌──────────────────────────────────────────────────────┐
-│              ~/.agents/skills/                        │
-│              ~/.claude/skills/                        │
-│         (Auto-detected by 40+ agents)                │
-└──────────────────┬───────────────────────────────────┘
-                   │
-    ┌──────┬───────┼───────┬──────┬──────┬──────┐
-    ▼      ▼       ▼       ▼      ▼      ▼      ▼
-┌───────┐┌──────┐┌──────┐┌─────┐┌─────┐┌─────┐┌──────┐
-│DevOps ││Secur-││Docs &││Front││Best ││ AI  ││Tools │
-│Deploy ││ity   ││Social││end  ││Prac ││Rsrch││Utils │
-│(8)    ││(1)   ││(2)   ││(3)  ││(7)  ││(2)  ││(4)   │
-└───┬───┘└──┬───┘└──┬───┘└──┬──┘└──┬──┘└──┬──┘└──┬───┘
-    │       │       │       │      │      │      │
-    ▼       ▼       ▼       ▼      ▼      ▼      ▼
-┌───────┐┌──────┐┌──────┐┌─────┐┌─────┐┌─────┐┌──────┐
-│gh CLI ││.env  ││Playw-││React││Vercel││NBook││PDF   │
-│Vercel ││scan  ││right ││Expo ││React ││LM   ││MCP   │
-│Docker ││gitign││MCP   ││CSS  ││RN   ││Infr ││Build │
-└───────┘└──────┘└──────┘└─────┘└─────┘└─────┘└──────┘
+         ┌─────────┴──────────┐
+         ▼                    ▼
+┌──────────────────┐  ┌──────────────────┐
+│  ~/.claude/      │  │  ~/.claude/      │
+│    skills/       │  │    commands/     │
+│ (auto-invoked)   │  │ (slash-invoked)  │
+└────────┬─────────┘  └────────┬─────────┘
+         │                     │
+   ┌─────┼─────┬─────┐    ┌────┼─────┬──────────┐
+   ▼     ▼     ▼     ▼    ▼    ▼     ▼          ▼
+ DevOps Docs Mobile AI  github start linkedin  (more)
+ Deploy      /iOS Rsrch  push   app    post
+  (3)   (1)  (1)  (2)
 ```
 
 ---
@@ -183,40 +157,19 @@ skills/
 ├── ai-avatar-video/               # AI avatar & talking head videos
 ├── app-store-submission/          # API-first iOS App Store submission
 │   └── scripts/                   # asc_submit.py, asc_jwt.swift, asset generators
-├── building-native-ui/            # Expo Router native UI guide
+├── app-testing/                   # Test app functionality & mobile responsiveness via Playwright MCP
 ├── docker-hub/                    # Docker Hub build & push
-├── find-skills/                   # Skill discovery & install
-├── frontend-design/               # Production-grade frontend design
-├── github-about/                  # Auto-update repo description & topics
-├── github-page/                   # GitHub Pages deployment
-├── github-pages/                  # GitHub Pages deployment (alt)
-├── github-push/                   # Secure git push with secret detection
-│   └── scripts/scan-secrets.sh
-├── linkedin-project-post/         # LinkedIn post generator
-├── mcp-builder/                   # MCP server creation guide
 ├── mobile-ios-design/             # iOS HIG + SwiftUI design patterns
 │   └── references/                # hig-patterns, ios-navigation, swiftui-components
 ├── notebooklm/                    # NotebookLM research & slides
-├── pdf/                           # PDF manipulation toolkit
-├── python-performance-optimization/ # Python profiling & optimization
 ├── readme/                        # README generator with screenshots
 │   ├── templates/
 │   └── examples/
-├── remotion-best-practices/       # Remotion video best practices
-├── secrets/                       # Secure secrets management
-│   ├── scripts/scan_secrets.py
-│   ├── references/platforms.md
-│   └── assets/
-├── skill-creator/                 # Skill creation guide
-├── start-app/                     # Auto-detect & start any app
-├── app-testing/                   # Test app via Playwright MCP
-├── stripe-best-practices/         # Stripe integration best practices
-├── supabase-postgres-best-practices/ # Postgres optimization
-├── vercel-composition-patterns/   # React composition patterns
-├── vercel-deployment/             # Vercel deployment automation
-├── vercel-react-best-practices/   # React/Next.js optimization
-├── vercel-react-native-skills/    # React Native best practices
-├── web-design-guidelines/         # Web UI review & accessibility
+├── commands/                      # Slash commands (explicitly invoked)
+│   ├── github-push.md             # Secure git push + repo setup + Pages
+│   ├── start-app.md               # Auto-detect & start any app
+│   └── linkedin-project-post.md   # LinkedIn post generator
+├── CLAUDE.md                      # Repo context for Claude Code
 └── README.md                      # This file
 ```
 
@@ -224,91 +177,47 @@ skills/
 
 ## Quick Install
 
-Install individual skills with a single command:
+### Skills
 
 ```bash
 # ===== DevOps & Deployment =====
-npx skills add https://github.com/alfredang/skills --skill github-push
-npx skills add https://github.com/alfredang/skills --skill github-about
-npx skills add https://github.com/alfredang/skills --skill github-page
-npx skills add https://github.com/alfredang/skills --skill github-pages
-npx skills add https://github.com/alfredang/skills --skill vercel-deployment
 npx skills add https://github.com/alfredang/skills --skill docker-hub
-npx skills add https://github.com/alfredang/skills --skill start-app
 npx skills add https://github.com/alfredang/skills --skill app-testing
+npx degit alfredang/skills/app-store-submission .claude/skills/app-store-submission   # bundles scripts/
 
-# app-store-submission ships supporting scripts — copy the whole folder with degit:
-npx degit alfredang/skills/app-store-submission .claude/skills/app-store-submission
-
-# ===== Security =====
-npx skills add https://github.com/alfredang/skills --skill secrets
-
-# ===== Documentation & Social =====
+# ===== Documentation =====
 npx skills add https://github.com/alfredang/skills --skill readme
-npx skills add https://github.com/alfredang/skills --skill linkedin-project-post
 
-# ===== Frontend & Design =====
-npx skills add https://github.com/alfredang/skills --skill frontend-design
-npx skills add https://github.com/alfredang/skills --skill web-design-guidelines
-npx skills add https://github.com/alfredang/skills --skill building-native-ui
-
-# ===== Best Practices & Frameworks =====
-npx skills add https://github.com/alfredang/skills --skill vercel-react-best-practices
-npx skills add https://github.com/alfredang/skills --skill vercel-react-native-skills
-npx skills add https://github.com/alfredang/skills --skill vercel-composition-patterns
-npx skills add https://github.com/alfredang/skills --skill stripe-best-practices
-npx skills add https://github.com/alfredang/skills --skill supabase-postgres-best-practices
-npx skills add https://github.com/alfredang/skills --skill remotion-best-practices
-npx skills add https://github.com/alfredang/skills --skill python-performance-optimization
+# ===== Mobile & Design =====
+npx degit alfredang/skills/mobile-ios-design .claude/skills/mobile-ios-design          # bundles references/
 
 # ===== AI & Research =====
 npx skills add https://github.com/alfredang/skills --skill notebooklm
 npx skills add https://github.com/alfredang/skills --skill ai-avatar-video
-
-# ===== Tools & Utilities =====
-npx skills add https://github.com/alfredang/skills --skill pdf
-npx skills add https://github.com/alfredang/skills --skill mcp-builder
-npx skills add https://github.com/alfredang/skills --skill skill-creator
-npx skills add https://github.com/alfredang/skills --skill find-skills
-
-# ===== Mobile / App Store =====
-# These skills bundle helper scripts / reference files; install by copying the folder with degit:
-npx degit alfredang/skills/app-store-submission .claude/skills/app-store-submission
-npx degit alfredang/skills/mobile-ios-design .claude/skills/mobile-ios-design
 ```
 
-> **degit** copies a single subfolder of this repo straight into your project (no git history,
-> no extra tooling). `npx degit alfredang/skills/app-store-submission .claude/skills/app-store-submission`
-> drops the full skill — `SKILL.md`, `.env.example`, and the `scripts/` — into your project's
-> `.claude/skills/` so Claude Code picks it up automatically. Likewise
-> `npx degit alfredang/skills/mobile-ios-design .claude/skills/mobile-ios-design` copies the
-> iOS design skill with its `references/`.
-
-### Install All Skills at Once
+### Commands
 
 ```bash
-for skill in github-push github-about github-page github-pages vercel-deployment docker-hub start-app app-testing secrets readme linkedin-project-post frontend-design web-design-guidelines building-native-ui vercel-react-best-practices vercel-react-native-skills vercel-composition-patterns stripe-best-practices supabase-postgres-best-practices remotion-best-practices python-performance-optimization notebooklm ai-avatar-video pdf mcp-builder skill-creator find-skills; do
-  npx skills add https://github.com/alfredang/skills --skill "$skill"
-done
+npx degit alfredang/skills/commands/github-push.md          .claude/commands/github-push.md
+npx degit alfredang/skills/commands/start-app.md            .claude/commands/start-app.md
+npx degit alfredang/skills/commands/linkedin-project-post.md .claude/commands/linkedin-project-post.md
 ```
+
+> **degit** copies a single file or subfolder of this repo straight into your project (no git history).
+> Skills that bundle helper scripts / references (`app-store-submission`, `mobile-ios-design`) and all
+> commands are installed via `degit` so the full folder/file lands in your project where Claude Code
+> picks it up automatically.
 
 ### Update to Latest
 
-Remove and reinstall to get the latest version:
-
 ```bash
-# Update a single skill
+# Skill — remove and reinstall
 rm -rf ~/.agents/skills/<skill-name> ~/.claude/skills/<skill-name>
 npx skills add https://github.com/alfredang/skills --skill <skill-name>
-```
 
-**Update all skills at once:**
-
-```bash
-for skill in github-push github-about github-page github-pages vercel-deployment docker-hub start-app app-testing secrets readme linkedin-project-post frontend-design web-design-guidelines building-native-ui vercel-react-best-practices vercel-react-native-skills vercel-composition-patterns stripe-best-practices supabase-postgres-best-practices remotion-best-practices python-performance-optimization notebooklm ai-avatar-video pdf mcp-builder skill-creator find-skills; do
-  rm -rf ~/.agents/skills/$skill ~/.claude/skills/$skill
-  npx skills add https://github.com/alfredang/skills --skill "$skill"
-done
+# Command — re-copy with --force
+npx degit --force alfredang/skills/commands/<name>.md .claude/commands/<name>.md
 ```
 
 ---
@@ -316,48 +225,33 @@ done
 ## Prerequisites
 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) with an active subscription
-- [Node.js](https://nodejs.org/) 18+ (for `npx skills`)
-- [Git](https://git-scm.com/) & [GitHub CLI](https://cli.github.com/) (`gh`) — for github-push, github-page
-- [Vercel CLI](https://vercel.com/cli) — for vercel-deployment (optional)
+- [Node.js](https://nodejs.org/) 18+ (for `npx skills` / `npx degit`)
+- [Git](https://git-scm.com/) & [GitHub CLI](https://cli.github.com/) (`gh`) — for `/github-push`
 - [Docker](https://docs.docker.com/get-docker/) — for docker-hub (optional)
+- [Xcode](https://developer.apple.com/xcode/) & an Apple Developer account — for app-store-submission (optional)
 
 ---
 
 ## Usage
 
-Trigger skills with slash commands:
+Run commands explicitly:
 
 ```
-/github-push               # Secure push with secret scan + repo setup
-/github-about              # Update repo description, URL & topics
-/readme                    # Generate or update README with screenshots
-/github-page               # Deploy to GitHub Pages
-/vercel-deployment         # Deploy to Vercel
-/docker-hub                # Build & push to Docker Hub
+/github-push               # Secure push + README + repo setup (+ pages to also deploy GitHub Pages)
 /start-app                 # Auto-detect & start app on localhost
-/test-app                  # Test app functionality via Playwright MCP
-/linkedin-post             # Create a LinkedIn post
-/notebooklm                # Deep research & slides
+/linkedin-project-post     # Create a LinkedIn post
 ```
 
-Or use natural language:
+Or just describe what you want — matching **skills** auto-trigger:
 
-- "push to github safely"
-- "update my repo description and topics"
-- "create a readme for my project"
-- "deploy to github pages"
-- "deploy to vercel"
 - "push docker image to docker hub"
-- "start the app"
+- "create a readme for my project"
 - "test my app on localhost"
-- "test my live site"
-- "write a linkedin post about my app"
-- "create a podcast about this topic"
-- "review my UI for accessibility"
-- "build a landing page"
+- "test mobile responsiveness on my live site"
+- "submit my iOS app to the App Store"
+- "design an iOS screen with SwiftUI"
+- "deep research this topic and make slides"
 - "create an AI avatar video"
-- "scan my code for hardcoded secrets"
-- "set up .env for my project"
 
 ---
 
@@ -381,9 +275,9 @@ Skills are automatically installed to all supported AI coding assistants (40+):
 | Issue | Solution |
 |-------|----------|
 | Skill doesn't appear in `/skills` | Remove and reinstall (see [Update to Latest](#update-to-latest)), then restart editor |
+| Command doesn't appear under `/` | Confirm the file is at `.claude/commands/<name>.md`, then restart your editor |
 | `npx skills add` says skill already exists | Remove existing first: `rm -rf ~/.agents/skills/<name> ~/.claude/skills/<name>` then reinstall |
 | Skill is outdated | Same as above — remove and reinstall to pull the latest version |
-| Skill not working after update | Restart your editor/terminal, then run `/skills` to verify |
 
 ---
 

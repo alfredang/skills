@@ -1,0 +1,19 @@
+# Local skill install mirrors created by `npx skills add` — never commit these.
+# The canonical source is the top-level <skill-name>/ directories.
+.agent/
+.agents/
+.claude/
+.cline/
+.cursor/
+.trae/
+.windsurf/
+skills/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+node_modules/
