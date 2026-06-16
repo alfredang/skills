@@ -6,7 +6,7 @@
 ![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
 ![Shell](https://img.shields.io/badge/Shell-Scripts-4EAA25?logo=gnubash&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
-![Skills](https://img.shields.io/badge/Skills-26-blue)
+![Skills](https://img.shields.io/badge/Skills-29-blue)
 ![Platforms](https://img.shields.io/badge/Platforms-40+-orange)
 
 **A collection of Claude Code skills to supercharge your development workflow**
@@ -41,7 +41,7 @@
 
 ## About
 
-Skills is a curated collection of 26 reusable automation workflows for Claude Code and 40+ compatible AI coding platforms. Each skill provides a specialized capability — from secure secrets management to one-command cloud deployments — all installable with a single `npx` command.
+Skills is a curated collection of 29 reusable automation workflows for Claude Code and 40+ compatible AI coding platforms. Each skill provides a specialized capability — from secure secrets management to one-command cloud deployments — all installable with a single `npx` command.
 
 ### Key Features
 
@@ -75,7 +75,7 @@ Skills is a curated collection of 26 reusable automation workflows for Claude Co
 | [docker-hub](./docker-hub) | Build & push Docker images to Docker Hub with auto-generated Dockerfiles | `npx skills add https://github.com/alfredang/skills --skill docker-hub` |
 | [start-app](./start-app) | Auto-detect & start any app on localhost with auto-open browser | `npx skills add https://github.com/alfredang/skills --skill start-app` |
 | [app-testing](./app-testing) | Test app functionality on localhost or remote live sites using Playwright MCP | `npx skills add https://github.com/alfredang/skills --skill app-testing` |
-| [app-store-submission](./app-store-submission) | API-first iOS App Store submission via the App Store Connect API + Xcode CLI, with a field-tested App Review rejection checklist | `npx degit alfredang/skills/app-store-submission .claude/skills/app-store-submission` |
+| [app-store-submission](./app-store-submission) | API-first iOS App Store submission via the App Store Connect API + Xcode CLI, with a field-tested App Review rejection + resubmission checklist | `npx degit alfredang/skills/app-store-submission .claude/skills/app-store-submission` |
 
 ### Security
 
@@ -97,6 +97,7 @@ Skills is a curated collection of 26 reusable automation workflows for Claude Co
 | [frontend-design](./frontend-design) | Create distinctive, production-grade frontend interfaces with high design quality | `npx skills add https://github.com/alfredang/skills --skill frontend-design` |
 | [web-design-guidelines](./web-design-guidelines) | Review UI code for Web Interface Guidelines compliance | `npx skills add https://github.com/alfredang/skills --skill web-design-guidelines` |
 | [building-native-ui](./building-native-ui) | Complete guide for building beautiful apps with Expo Router | `npx skills add https://github.com/alfredang/skills --skill building-native-ui` |
+| [mobile-ios-design](./mobile-ios-design) | Master iOS Human Interface Guidelines and SwiftUI patterns for polished native iOS apps | `npx degit alfredang/skills/mobile-ios-design .claude/skills/mobile-ios-design` |
 
 ### Best Practices & Frameworks
 
@@ -193,6 +194,8 @@ skills/
 │   └── scripts/scan-secrets.sh
 ├── linkedin-project-post/         # LinkedIn post generator
 ├── mcp-builder/                   # MCP server creation guide
+├── mobile-ios-design/             # iOS HIG + SwiftUI design patterns
+│   └── references/                # hig-patterns, ios-navigation, swiftui-components
 ├── notebooklm/                    # NotebookLM research & slides
 ├── pdf/                           # PDF manipulation toolkit
 ├── python-performance-optimization/ # Python profiling & optimization
@@ -269,14 +272,17 @@ npx skills add https://github.com/alfredang/skills --skill skill-creator
 npx skills add https://github.com/alfredang/skills --skill find-skills
 
 # ===== Mobile / App Store =====
-# app-store-submission bundles helper scripts; install it by copying the folder with degit:
+# These skills bundle helper scripts / reference files; install by copying the folder with degit:
 npx degit alfredang/skills/app-store-submission .claude/skills/app-store-submission
+npx degit alfredang/skills/mobile-ios-design .claude/skills/mobile-ios-design
 ```
 
 > **degit** copies a single subfolder of this repo straight into your project (no git history,
 > no extra tooling). `npx degit alfredang/skills/app-store-submission .claude/skills/app-store-submission`
 > drops the full skill — `SKILL.md`, `.env.example`, and the `scripts/` — into your project's
-> `.claude/skills/` so Claude Code picks it up automatically.
+> `.claude/skills/` so Claude Code picks it up automatically. Likewise
+> `npx degit alfredang/skills/mobile-ios-design .claude/skills/mobile-ios-design` copies the
+> iOS design skill with its `references/`.
 
 ### Install All Skills at Once
 

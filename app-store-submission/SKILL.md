@@ -3,7 +3,7 @@ name: app-store-submission
 description: End-to-end submission of a native iOS/iPadOS app to the App Store, driven almost entirely by the App Store Connect (ASC) API + Xcode CLI (no manual portal clicking where avoidable). Use when archiving, uploading a build, setting metadata/screenshots/pricing, and submitting an app for review. Covers the hard-won gotchas plus a field-tested App Review rejection checklist (real-app screenshots, in-app account deletion, working demo account).
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "2.1.0"
 ---
 
 # App Store Submission (API-first)
@@ -170,6 +170,23 @@ review the Development→Production diff and **Deploy**.
   Regenerate per script run; don't cache.
 - **Empty draft review submissions** created during testing can't be deleted via API (403).
   Ignore them or remove in the UI.
+- **Replacing screenshots = DELETE then upload** (the API *appends*). To swap a bad set, first
+  `GET /v1/appScreenshotSets/{setid}/appScreenshots`, `DELETE /v1/appScreenshots/{id}` each,
+  then run the 3-step upload. Otherwise you end up with 6 screenshots (3 stale + 3 new).
+- **Resubmitting a REJECTED version → `STATE_ERROR.ITEM_PART_OF_ANOTHER_SUBMISSION`.** The
+  rejected `reviewSubmission` still "holds" the version. Free it with
+  `PATCH /v1/reviewSubmissions/{id}` `{"canceled": true}`, then create a fresh submission, add
+  the version as a `reviewSubmissionItem`, and `PATCH submitted=true`. A stray *empty*
+  submission left over from a failed attempt may 409 on cancel — just **reuse** it (add the
+  item + submit it) instead of creating another.
+- **Attach a reviewer screen recording via the API** (works even while `WAITING_FOR_REVIEW`):
+  3-step like screenshots — `POST /v1/appStoreReviewAttachments` (attrs `fileName`+`fileSize`,
+  relationship → `appStoreReviewDetails/{id}`) → PUT bytes to `uploadOperations` → `PATCH`
+  `uploaded=true` + `sourceFileChecksum` (MD5). Poll `assetDeliveryState.state == COMPLETE`.
+- **`releaseType: AFTER_APPROVAL`** on the version means **approval auto-publishes** it — no
+  manual "Release" click needed. Confirm via `GET appStoreVersions/{id}` before submitting.
+- **Build must be `processingState == VALID`** before `attach-build`; list with
+  `GET /v1/builds?filter[app]={aid}&sort=-uploadedDate`. Processing takes ~5–15 min after `altool`.
 
 ## Screenshot display types (common)
 
@@ -270,3 +287,60 @@ live backend** / the app crashed on the reviewer's device.
       your live backend right before submitting (don't assume).
 - [ ] Confirm a **demo/TestFlight build launches without crashing on every device family you
       support** — for a universal app, reviewers test on iPad too.
+
+## Resubmission recipe — clearing "screenshots + account-deletion" (2.3.3 + 5.1.1(v))
+
+The full end-to-end fix, in order. Reuse this for any "screenshots + account-deletion" rejection.
+
+**1. Real screenshots from the Simulator.**
+- Build + run for the simulator: `xcodebuild ... -sdk iphonesimulator -destination
+  'platform=iOS Simulator,name=<Simulator Device>'`, then `xcrun simctl install booted <App>.app`
+  + `xcrun simctl launch booted <BUNDLE_ID>`.
+- Capture: `xcrun simctl io booted screenshot out.png` (a 6.9" Pro Max renders 1320×2868).
+- Drive between tabs/screens with **`cliclick`** using the Simulator window geometry
+  (`osascript ... get {position, size} of window 1`). Map screen-fraction → window point and
+  **allow ~28 pt for the title bar** (bottom-of-screen tab taps are insensitive to it; mid-screen
+  taps are not). After each shell call the Simulator can lose focus — `activate` + one throwaway
+  click before the real tap.
+- Resize to the exact slot size with `sips -z <h> <w> in.png --out out.png`
+  (e.g. 6.5" = 1284×2778).
+- Upload by **deleting the old set first, then the 3-step reserve/PUT/PATCH** (see Gotchas).
+
+**2. In-app account deletion (the 5.1.1(v) fix).**
+- Backend: add an authenticated `DELETE /account` (or equivalent) that **deactivates +
+  anonymizes** — set `isActive=false`, rewrite the email to a tombstone
+  (`deleted+<id>@…`), and null out `passwordHash`/name/phone/avatar/OAuth ids. Keep the row
+  (don't hard-delete) so legally-required transaction records stay linkable. The login route
+  must already reject inactive accounts so the deleted user **cannot sign back in**.
+- App: a clearly-labelled destructive **Delete Account** button on the Profile screen →
+  `confirmationDialog` → call the endpoint → `signOut()`. Show progress + error states.
+- **Verify the endpoint is actually LIVE before submitting**: register a throwaway account via
+  the API, call the delete route with its token (expect 200), then try to log in again (expect
+  401). Don't trust "deploy finished" — `curl` the real route.
+
+**3. ⚠️ Deploying the backend can expose LATENT crashes.** Adding a new endpoint may force the
+**first rebuild of the API container in months**, which compiles the *current* source and surfaces
+bugs that were committed but never deployed (e.g. a stray top-level route handler registered
+outside its plugin → `ReferenceError` crash-loop; or ESM `ERR_MODULE_NOT_FOUND` from extensionless
+relative imports). Symptoms: container `exited:unhealthy`, "Stopped after reaching restart limit",
+site 503 — while the *build* shows green "Success" (**build success ≠ runtime success**). To
+diagnose, **reproduce the container's exact start command locally** (read the start command from
+your Dockerfile/process config) and read the **runtime** logs, not the build log. Keep the hotfix
+minimal; verify the route is live before resubmitting.
+
+**4. The reviewer screen recording (do everything but the typing).**
+- **Synthetic keystrokes do NOT enter text into SwiftUI `TextField`s** — `cliclick t:` and
+  System Events `keystroke` both silently fail to focus/fill the field. Two reliable options:
+  (a) **have a human type** the credentials while you drive everything else, or (b) inject a
+  pre-authenticated session. Pre-create a **simple, easy-to-type throwaway account**
+  (`<TEST_ACCOUNT>` / short password) so whoever types it isn't fighting a long string — and so
+  the real demo account is never deleted in the recording.
+- Record: `xcrun simctl io booted recordVideo --codec=h264 --force out.mp4` (runs until SIGINT;
+  stop with `pkill -INT -f "simctl io booted recordVideo"` so the file finalizes).
+- Trim with `ffmpeg -ss <start> -i out.mp4 -c:v libx264 -crf 23 -pix_fmt yuv420p clip.mp4`;
+  sanity-check with a `tile=8x4` contact sheet (remember `tile` only covers `fps×tiles` seconds).
+- Attach via the **`appStoreReviewAttachments` API** (works while `WAITING_FOR_REVIEW`).
+
+**5. Submit + auto-publish.** Cancel the old rejected `reviewSubmission`, add the version to a
+fresh one, `PATCH submitted=true`. With `releaseType=AFTER_APPROVAL`, **approval publishes it
+automatically** — no further action.
