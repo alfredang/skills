@@ -105,7 +105,7 @@ Slash commands invoked explicitly. Install by copying the file into your project
 
 | Command | Description | Install |
 |---------|-------------|---------|
-| [/github-push](./commands/github-push.md) | Secure git push — secret detection, README (via readme skill), repo About (description/URL/topics), Discussions, optional PR & GitHub Pages deploy | `npx degit alfredang/skills/commands/github-push.md .claude/commands/github-push.md` |
+| [/github-push](./commands/github-push.md) | Secure git push — blocks secrets/keys/passwords, pushes code, adds/updates README + screenshot (via readme skill), updates repo About (description/URL/topics) & Discussions, auto-deploys static sites to GitHub Pages via Actions (optional PR) | `npx degit alfredang/skills/commands/github-push.md .claude/commands/github-push.md` |
 | [/start-app](./commands/start-app.md) | Auto-detect project type and start any app on localhost on a free port, then open the browser | `npx degit alfredang/skills/commands/start-app.md .claude/commands/start-app.md` |
 | [/linkedin-project-post](./commands/linkedin-project-post.md) | Generate an exciting LinkedIn post with screenshot, links, features, tech stack, CTA & hashtags (auto-publish via LinkedIn MCP) | `npx degit alfredang/skills/commands/linkedin-project-post.md .claude/commands/linkedin-project-post.md` |
 

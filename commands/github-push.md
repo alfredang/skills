@@ -1,12 +1,18 @@
 ---
-description: Secure git push — secret detection, professional README generation (with Playwright screenshot), commit & push, optional PR, repo About setup (description/URL/topics), Discussions, and optional GitHub Pages deployment. Scans for exposed credentials before pushing.
-argument-hint: "[optional: 'pr' to open a pull request, 'pages' to deploy to GitHub Pages]"
+description: Secure git push — blocks any secret/API key/password, pushes code, adds/updates the README + screenshot (via the readme skill), updates the GitHub repo About (description/URL/topics) & Discussions, and auto-deploys static sites to GitHub Pages via GitHub Actions. Optional PR.
+argument-hint: "[optional: 'pr' to open a pull request, 'pages' to force GitHub Pages deploy]"
 allowed-tools: Bash, Read, Edit, Write, Grep, Glob
 ---
 
 # GitHub Push
 
-Securely push code to GitHub: scan for exposed secrets, generate/update a professional README, commit, push, optionally open a PR, update the repo's About section, enable Discussions, and optionally deploy to GitHub Pages.
+Securely push a project to GitHub. Every run guarantees these steps:
+
+1. **No secrets pushed** — scan for and block any exposed secrets, API keys, tokens, or passwords (Phase 1).
+2. **Update code to GitHub** — stage, commit, and push the changes (Phase 3).
+3. **Update/add README + screenshot** — generate or refresh `README.md` via the `readme` skill, including a Playwright screenshot (Phase 2).
+4. **Update the GitHub repo** — set the repo About: description, live site URL, topics, and enable Discussions (Phase 5).
+5. **Create GitHub Pages for static sites** — auto-deploy static projects to GitHub Pages via a GitHub Actions workflow (Phase 6).
 
 Runs using **Claude Code with subscription plan** — do NOT use pay-as-you-go API keys.
 
@@ -35,9 +41,14 @@ Before ANY git operations, scan the codebase for exposed secrets. Do not proceed
 
 **If none found:** report "Security scan complete: No secrets detected" and continue.
 
-### Phase 2: README Generation
+### Phase 2: README + Screenshot (always)
 
-If no `README.md` exists, invoke the **`readme` skill** to generate a professional one (badges, Playwright screenshot, tech stack, architecture diagram), then stage the generated `README.md` (and `screenshot.png` if created). If a README already exists, skip unless the user explicitly asks to regenerate it.
+Invoke the **`readme` skill** to add or update the project's `README.md` — professional structure with badges, tech stack, architecture diagram, and a **Playwright screenshot** of the live site (the readme skill captures `screenshot.png` when a live demo URL is available and the README has no existing screenshot).
+
+- If no `README.md` exists → generate it from scratch.
+- If one exists → update it to the latest template, preserving project-specific details; refresh the screenshot if it is missing.
+
+Stage the resulting `README.md` (and `screenshot.png` if created) for the commit in Phase 3.
 
 ### Phase 3: Git Operations
 
@@ -81,9 +92,11 @@ gh repo view --json hasDiscussionsEnabled
 gh repo edit --enable-discussions
 ```
 
-### Phase 6: GitHub Pages Deployment (only if requested via `$ARGUMENTS`/`pages` or the user asks)
+### Phase 6: GitHub Pages Deployment (auto for static sites)
 
-Deploy the project to GitHub Pages with an auto-generated Actions workflow. (Formerly the standalone `github-pages` skill — now built in.)
+Deploy the project to GitHub Pages with an auto-generated GitHub Actions workflow. (Formerly the standalone `github-pages` skill — now built in.)
+
+**When to run:** Run this automatically whenever the project is a **static site** — i.e. a root `index.html`, or a static-buildable frontend (Vite / Next.js static export / Angular / MkDocs / any `package.json` with a `build` script that emits static assets). Also run when the user passes `pages` in `$ARGUMENTS` or asks for it. **Skip** (and say so) for backend/server projects with no static output, or when no GitHub remote exists.
 
 1. **Detect project type** and resolve build command + output dir:
 
