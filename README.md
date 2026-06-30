@@ -89,6 +89,24 @@ A curated collection of **7 skills** and **3 slash commands** for Claude Code an
 | Skill | Description | Install |
 |-------|-------------|---------|
 | [mobile-ios-design](./mobile-ios-design) | Master iOS Human Interface Guidelines and SwiftUI patterns for polished native iOS apps | `npx degit alfredang/skills/mobile-ios-design .claude/skills/mobile-ios-design` |
+| [mobile-android-design](./mobile-android-design) | Master Material Design 3 & Jetpack Compose patterns for native Android apps | `npx degit alfredang/skills/mobile-android-design .claude/skills/mobile-android-design` |
+| [android-feedback-about](./android-feedback-about) | Add Material 3 Feedback + About tabs (WhatsApp feedback) to a native Android app | `npx degit alfredang/skills/android-feedback-about .claude/skills/android-feedback-about` |
+
+### Mobile Release Automation (CI/CD)
+
+| Skill | Description | Install |
+|-------|-------------|---------|
+| [ios-auto-release](./ios-auto-release) | CI/CD to auto-build, sign, upload & submit a native iOS app to App Store Connect on every push to `main` | `npx degit alfredang/skills/ios-auto-release .claude/skills/ios-auto-release` |
+| [android-auto-release](./android-auto-release) | CI/CD to auto-build, sign & upload an Android AAB to Google Play on every push to `main` | `npx degit alfredang/skills/android-auto-release .claude/skills/android-auto-release` |
+| [android-app-submission](./android-app-submission) | End-to-end submission of an Android AAB to the Google Play Console for review & closed testing | `npx degit alfredang/skills/android-app-submission .claude/skills/android-app-submission` |
+
+### Project Setup & Office Documents
+
+| Skill | Description | Install |
+|-------|-------------|---------|
+| [project-init](./project-init) | Initialize a new project with standard CLAUDE.md, MEMORY.md & .env setup | `npx degit alfredang/skills/project-init .claude/skills/project-init` |
+| [pptx](./pptx) | Create, edit & read PowerPoint .pptx decks | `npx degit alfredang/skills/pptx .claude/skills/pptx` |
+| [xlsx](./xlsx) | Create, edit & read Excel / CSV spreadsheets | `npx degit alfredang/skills/xlsx .claude/skills/xlsx` |
 
 ### AI & Research
 
@@ -96,6 +114,17 @@ A curated collection of **7 skills** and **3 slash commands** for Claude Code an
 |-------|-------------|---------|
 | [notebooklm](./notebooklm) | Deep research & slide presentations via NotebookLM MCP | `npx skills add https://github.com/alfredang/skills --skill notebooklm` |
 | [ai-avatar-video](./ai-avatar-video) | Create AI avatar and talking head videos with OmniHuman, Fabric, PixVerse | `npx skills add https://github.com/alfredang/skills --skill ai-avatar-video` |
+
+### Courseware & Training (Tertiary Infotech Academy)
+
+| Skill | Description | Install |
+|-------|-------------|---------|
+| [courseware-build](./courseware-build) | Single-source build pipeline for WSQ Docker/Kubernetes courseware (labs, slides, LP, LG) | `npx degit alfredang/skills/courseware-build .claude/skills/courseware-build` |
+| [tertiary-course-slides](./tertiary-course-slides) | Generate all-white WSQ course slide decks (python-pptx) | `npx degit alfredang/skills/tertiary-course-slides .claude/skills/tertiary-course-slides` |
+| [tertiary-ppt-design](./tertiary-ppt-design) | Design system & rules for professional Tertiary Infotech slide decks | `npx degit alfredang/skills/tertiary-ppt-design .claude/skills/tertiary-ppt-design` |
+| [tertiary-lesson-plan](./tertiary-lesson-plan) | Generate a WSQ Lesson Plan .docx (house cover, TOC, daily schedule) | `npx degit alfredang/skills/tertiary-lesson-plan .claude/skills/tertiary-lesson-plan` |
+| [tertiary-learner-guide](./tertiary-learner-guide) | Generate a WSQ Learner Guide as aligned Markdown + .docx | `npx degit alfredang/skills/tertiary-learner-guide .claude/skills/tertiary-learner-guide` |
+| [fill-tsc-jd-lithan-ccp](./fill-tsc-jd-lithan-ccp) | Fill the JD column in a Lithan CCP TSC Scoping Matrix workbook | `npx degit alfredang/skills/fill-tsc-jd-lithan-ccp .claude/skills/fill-tsc-jd-lithan-ccp` |
 
 ---
 

@@ -17,3 +17,8 @@ skills/
 # OS / editor
 .DS_Store
 node_modules/
+
+# Org ASC credentials (never commit)
+org-credentials.env
+*.p8
+__pycache__/
